@@ -1,0 +1,500 @@
+\documentclass[12pt,a4paper]{article}
+
+% ------------------------------------------------
+% Pacotes
+% ------------------------------------------------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[brazil]{babel}
+\usepackage{geometry}
+\usepackage{enumitem}
+\usepackage{amsmath}
+\usepackage[table]{xcolor}
+\usepackage{listings}
+\usepackage{multicol}
+\usepackage{courier}
+
+\lstset{
+    language=Java,
+    keywordstyle=\bfseries,
+    showstringspaces=false,
+    breaklines=true,
+    frame=none,
+    numbers=none,
+    tabsize=2,
+    commentstyle=\itshape\color{gray},
+    morekeywords={this, class, private, public, String, val, var, fun, data, override, return, listOf, mutableListOf, println, it, filter, map, forEach, sortedBy, firstOrNull, Modifier, Column, Row, Text, Image, Card, LazyColumn, Scaffold, Box, Spacer, Button, onClick, padding, fillMaxSize, fillMaxWidth, height, width, dp, sp},
+    extendedchars=true,
+    inputencoding=utf8
+}
+
+\geometry{
+    a4paper,
+    left=2cm,
+    right=2cm,
+    top=2cm,
+    bottom=2cm
+}
+
+\setlength{\parindent}{0pt}
+
+% Caixa para resposta discursiva
+\newcommand{\resposta}[1]{
+\noindent
+\framebox[\textwidth]{
+\begin{minipage}{0.98\textwidth}
+\vspace*{#1}\null
+\end{minipage}
+}
+}
+
+\begin{document}
+
+\begin{center}
+    {\LARGE \textbf{LISTA DE EXERCÍCIOS DE REVISÃO — N1}} \\[0.3cm]
+    {\large Desenvolvimento de Software para Dispositivos Móveis} \\[0.2cm]
+    {\normalsize Engenharia de Software — UniRV}
+\end{center}
+
+\vspace{0.5cm}
+\hrule
+\vspace{0.5cm}
+
+\textbf{Código fonte de apoio para as questões 1 até 4}
+
+\setlength{\columnseprule}{0.4pt}
+\begin{multicols}{2}
+\begin{lstlisting}[basicstyle=\scriptsize\ttfamily, breaklines=true]
+package com.example.livraria
+
+class MainActivity : ComponentActivity() {
+    override fun onCreate(
+        savedInstanceState: Bundle?
+    ) {
+        super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
+        setContent {
+            LivrariaTheme {
+                Scaffold(
+                    modifier = Modifier
+                        .fillMaxSize()
+                ) { innerPadding ->
+                    TelaInicial(
+                        modifier = Modifier
+                            .padding(innerPadding)
+                    )
+                }
+            }
+        }
+    }
+}
+
+data class Livro(
+    val titulo: String,
+    val autor: String,
+    val preco: Double,
+    val avaliacao: Int,
+    val capa: String
+)
+
+@Composable
+fun LivroCard(
+    titulo: String,
+    autor: String,
+    preco: Double,
+    avaliacao: Int,
+    capa: String,
+    modifier: Modifier = Modifier
+) {
+    Card(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(8.dp),
+        shape = RoundedCornerShape(12.dp),
+        colors = CardDefaults.cardColors(
+            containerColor =
+                Color(0xFFF5F5DC)
+        ),
+        elevation =
+            CardDefaults.cardElevation(
+                defaultElevation = 4.dp
+            )
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(12.dp),
+            horizontalAlignment =
+                Alignment.CenterHorizontally
+        ) {
+            Image(
+                painter =
+                    painterResource(id = capa),
+                contentDescription =
+                    "Capa de $titulo",
+                modifier = Modifier
+                    .height(180.dp)
+                    .fillMaxWidth(),
+                contentScale =
+                    ContentScale.Fit
+            )
+
+            Spacer(
+                modifier =
+                    Modifier.height(8.dp)
+            )
+
+            Text(
+                text = titulo,
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color(0xFF333333),
+                textAlign = TextAlign.Center
+            )
+
+            Text(
+                text = autor,
+                fontSize = 12.sp,
+                color = Color(0xFF777777)
+            )
+
+            Text(
+                text = "R$ ${"%.2f"
+                    .format(preco)}",
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color(0xFF2E7D32),
+                modifier = Modifier
+                    .padding(top = 6.dp)
+            )
+
+            Row(
+                modifier = Modifier
+                    .padding(top = 4.dp)
+            ) {
+                repeat(avaliacao) {
+                    Text(
+                        text = "estrela",
+                        fontSize = 12.sp,
+                        color =
+                            Color(0xFFFFC107)
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun ListaLivros() {
+    val livros = listOf(
+        Livro(
+            titulo = "O Senhor dos Aneis",
+            autor = "J.R.R. Tolkien",
+            preco = 59.90,
+            avaliacao = 5,
+            capa = "capa_senhor"
+        ),
+        Livro(
+            titulo = "Dom Casmurro",
+            autor = "Machado de Assis",
+            preco = 29.90,
+            avaliacao = 4,
+            capa = "capa_dom"
+        ),
+        Livro(
+            titulo = "1984",
+            autor = "George Orwell",
+            preco = 39.90,
+            avaliacao = 5,
+            capa = "capa_1984"
+        )
+    )
+
+    LazyColumn(
+        modifier = Modifier.fillMaxSize(),
+        contentPadding =
+            PaddingValues(16.dp),
+        verticalArrangement =
+            Arrangement.spacedBy(12.dp)
+    ) {
+        items(livros) { livro ->
+            LivroCard(
+                titulo = livro.titulo,
+                autor = livro.autor,
+                preco = livro.preco,
+                avaliacao = livro.avaliacao,
+                capa = livro.capa
+            )
+        }
+    }
+}
+
+@Composable
+fun TelaInicial(modifier: Modifier) {
+    Column(modifier = modifier) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            horizontalArrangement =
+                Arrangement.Center
+        ) {
+            Text(
+                text = "Livraria ",
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold
+            )
+            Text(
+                text = "Virtual",
+                fontSize = 20.sp,
+                color = Color(0xFF6A1B9A)
+            )
+        }
+        ListaLivros()
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun LivrariaPreview() {
+    LivrariaTheme {
+        TelaInicial(
+            modifier = Modifier
+        )
+    }
+}
+\end{lstlisting}
+\end{multicols}
+
+\vspace{0.5cm}
+
+% ================================================================
+% QUESTÃO 1 — @Composable
+% ================================================================
+\textbf{Questão 1 —} No código de apoio, diversas funções como \texttt{LivroCard}, \texttt{ListaLivros} e \texttt{TelaInicial} são marcadas com a anotação \texttt{@Composable}. Explique qual é a finalidade dessa anotação no Jetpack Compose e por que uma função comum (sem \texttt{@Composable}) não poderia ser utilizada para descrever elementos de interface.
+
+\vspace{0.3cm}
+\resposta{6cm}
+
+\vspace{0.5cm}
+
+% ================================================================
+% QUESTÃO 2 — Row, Column, layouts
+% ================================================================
+\textbf{Questão 2 —} Analisando a função \texttt{TelaInicial} no código de apoio, percebe-se o uso combinado de \texttt{Column} e \texttt{Row}. Responda:
+
+\begin{enumerate}[label=\alph*)]
+    \item Qual é a diferença de comportamento entre \texttt{Column} e \texttt{Row} na organização dos elementos filhos?
+    \item No trecho do \texttt{Row} que exibe o título, qual é a função do parâmetro \texttt{horizontalArrangement = Arrangement.Center}?
+    \item Explique o que faz o componente \texttt{Spacer} utilizado dentro do \texttt{LivroCard} e por que ele é útil na construção de layouts.
+\end{enumerate}
+
+\vspace{0.3cm}
+\resposta{7cm}
+
+\vspace{0.5cm}
+
+% ================================================================
+% QUESTÃO 3 — dp e sp
+% ================================================================
+\textbf{Questão 3 —} No código de apoio, observa-se o uso frequente das unidades \texttt{dp} (ex: \texttt{8.dp}, \texttt{12.dp}, \texttt{180.dp}) e \texttt{sp} (ex: \texttt{14.sp}, \texttt{12.sp}, \texttt{20.sp}). Responda:
+
+\begin{enumerate}[label=\alph*)]
+    \item Explique a diferença entre \texttt{dp} e \texttt{sp} e indique para qual tipo de elemento cada unidade é mais adequada.
+    \item Imagine que um desenvolvedor utilizou \texttt{180px} em vez de \texttt{180.dp} para a altura da imagem da capa do livro. Descreva o que aconteceria ao executar o aplicativo em dois dispositivos com densidades de tela diferentes (ex: mdpi e xxxhdpi).
+\end{enumerate}
+
+\vspace{0.3cm}
+\resposta{7cm}
+
+\vspace{0.5cm}
+
+% ================================================================
+% QUESTÃO 4 — @Preview vs. Activity
+% ================================================================
+\textbf{Questão 4 —} No código de apoio, existe a função \texttt{LivrariaPreview()} anotada com \texttt{@Preview(showBackground = true)} e a classe \texttt{MainActivity} que herda de \texttt{ComponentActivity}. Responda:
+
+\begin{enumerate}[label=\alph*)]
+    \item Explique qual dos dois trechos é utilizado durante o \textbf{desenvolvimento} (para pré-visualização na IDE) e qual é invocado quando o aplicativo é executado no \textbf{dispositivo real}.
+    \item O que aconteceria se a função \texttt{LivrariaPreview()} fosse removida do código? O aplicativo pararia de funcionar no celular? Justifique.
+\end{enumerate}
+
+\vspace{0.3cm}
+\resposta{6cm}
+
+\vspace{0.5cm}
+
+% ================================================================
+% QUESTÃO 5 — Sensores
+% ================================================================
+\textbf{Questão 5 —} Dispositivos móveis modernos possuem diversos sensores embutidos, como Acelerômetro, Giroscópio, Magnetômetro, GPS, sensor de proximidade e sensor de luminosidade. Responda:
+
+\begin{enumerate}[label=\alph*)]
+    \item Explique a função de cada um dos três sensores: \textbf{Acelerômetro}, \textbf{Giroscópio} e \textbf{Magnetômetro}.
+    \item Uma equipe pretende desenvolver um aplicativo de \textbf{nível digital} (bolha) para smartphones, que indica se uma superfície está perfeitamente nivelada. Qual sensor seria o principal para essa funcionalidade? Justifique.
+    \item Em um aplicativo de \textbf{bússola digital}, qual sensor seria o mais adequado? Justifique.
+\end{enumerate}
+
+\vspace{0.3cm}
+\resposta{7cm}
+
+\vspace{0.5cm}
+
+% ================================================================
+% QUESTÃO 6 — Lambdas
+% ================================================================
+\textbf{Questão 6 —} Analise o seguinte trecho de código Kotlin:
+
+\begin{lstlisting}[basicstyle=\small\ttfamily, breaklines=true]
+val multiplicar = { x: Int, y: Int -> x * y }
+val resultado = multiplicar(4, 7)
+println(resultado)
+\end{lstlisting}
+
+\begin{enumerate}[label=\alph*)]
+    \item Explique o que é uma \textbf{função lambda} (função anônima) em Kotlin e por que dizemos que funções são ``cidadãs de primeira classe'' nessa linguagem.
+    \item No código acima, o que a variável \texttt{multiplicar} armazena e qual será o valor impresso pelo \texttt{println}?
+    \item Reescreva o trecho acima criando uma lambda que receba uma \texttt{String} e retorne essa string em letras maiúsculas.
+\end{enumerate}
+
+\vspace{0.3cm}
+\resposta{7cm}
+
+\vspace{0.5cm}
+
+% ================================================================
+% QUESTÃO 7 — Coleções
+% ================================================================
+\textbf{Questão 7 —} Considere o trecho de código Kotlin abaixo:
+
+\begin{lstlisting}[basicstyle=\small\ttfamily, breaklines=true]
+val frutas = mutableListOf("Manga", "Uva", "Manga", "Abacaxi")
+val conjunto = mutableSetOf("Manga", "Uva", "Manga", "Abacaxi")
+val mapa = mutableMapOf("A" to 1, "B" to 2, "A" to 3)
+\end{lstlisting}
+
+\begin{enumerate}[label=\alph*)]
+    \item Descreva as principais diferenças entre \texttt{List}, \texttt{Set} e \texttt{Map} em Kotlin.
+    \item Qual será o valor de \texttt{frutas.size}, \texttt{conjunto.size} e \texttt{mapa.size}? Justifique cada resposta.
+    \item Explique a diferença entre as variantes \texttt{mutableListOf} e \texttt{listOf}. A declaração com \texttt{val} impede a adição de novos elementos a uma coleção mutável?
+\end{enumerate}
+
+\vspace{0.3cm}
+\resposta{7cm}
+
+\vspace{0.5cm}
+
+% ================================================================
+% QUESTÃO 8 — filter, map, higher-order
+% ================================================================
+\textbf{Questão 8 —} Sobre as funções de alta ordem \texttt{filter} e \texttt{map} em Kotlin, responda:
+
+\begin{enumerate}[label=\alph*)]
+    \item Explique o que cada uma dessas funções faz e se elas alteram a coleção original ou retornam uma nova coleção.
+    \item Qual é o resultado das expressões abaixo? Justifique.
+\end{enumerate}
+
+\begin{lstlisting}[basicstyle=\small\ttfamily, breaklines=true]
+val numeros = listOf(1, 2, 3, 4, 5, 6)
+val pares = numeros.filter { it % 2 == 0 }
+val dobrados = numeros.map { it * 2 }
+println(pares)
+println(dobrados)
+\end{lstlisting}
+
+\begin{enumerate}[label=\alph*), resume]
+    \item O que é o identificador implícito \texttt{it} utilizado dentro das lambdas acima?
+    \item Escreva uma expressão que, a partir de \texttt{numeros}, retorne uma lista contendo apenas os valores maiores que 3, multiplicados por 10 (encadeando \texttt{filter} e \texttt{map}).
+\end{enumerate}
+
+\vspace{0.3cm}
+\resposta{7cm}
+
+\vspace{0.5cm}
+
+% ================================================================
+% QUESTÕES EXTRAS
+% ================================================================
+\hrule
+\vspace{0.3cm}
+\begin{center}
+    \textbf{QUESTÕES EXTRAS DE REVISÃO}
+\end{center}
+\vspace{0.3cm}
+
+% ================================================================
+% QUESTÃO 9 — data class
+% ================================================================
+\textbf{Questão 9 —} No código de apoio, a classe \texttt{Livro} é declarada como uma \texttt{data class}. Explique o que diferencia uma \texttt{data class} de uma classe comum em Kotlin. Quais métodos são gerados automaticamente pelo compilador ao utilizar essa palavra-chave?
+
+\vspace{0.3cm}
+\resposta{5cm}
+
+\vspace{0.5cm}
+
+% ================================================================
+% QUESTÃO 10 — Modifier
+% ================================================================
+\textbf{Questão 10 —} No Jetpack Compose, o conceito de \texttt{Modifier} é amplamente utilizado, como pode ser visto no código de apoio (ex: \texttt{Modifier.fillMaxWidth()}, \texttt{Modifier.padding(8.dp)}, \texttt{Modifier.height(180.dp)}). Responda:
+
+\begin{enumerate}[label=\alph*)]
+    \item O que é um \texttt{Modifier} no Jetpack Compose e qual a sua finalidade?
+    \item Por que diversos \texttt{Modifiers} podem ser encadeados (ex: \texttt{Modifier.fillMaxWidth().padding(8.dp)})? Que padrão de projeto isso lembra?
+\end{enumerate}
+
+\vspace{0.3cm}
+\resposta{6cm}
+
+\vspace{0.5cm}
+
+% ================================================================
+% QUESTÃO 11 — LazyColumn vs Column
+% ================================================================
+\textbf{Questão 11 —} No código de apoio, a função \texttt{ListaLivros()} utiliza um \texttt{LazyColumn} para exibir os cards de livros. Explique a diferença entre \texttt{LazyColumn} e \texttt{Column} e em quais cenários o uso de \texttt{LazyColumn} é preferível.
+
+\vspace{0.3cm}
+\resposta{5cm}
+
+\vspace{0.5cm}
+
+% ================================================================
+% QUESTÃO 12 — Exercício prático com coleções
+% ================================================================
+\textbf{Questão 12 —} Considerando a lista de livros abaixo em Kotlin:
+
+\begin{lstlisting}[basicstyle=\small\ttfamily, breaklines=true]
+data class Livro(
+    val titulo: String,
+    val autor: String,
+    val preco: Double,
+    val avaliacao: Int
+)
+
+val livros = listOf(
+    Livro("Kotlin em Acao", "Dmitry", 89.90, 5),
+    Livro("Clean Code", "Robert", 69.90, 4),
+    Livro("O Hobbit", "Tolkien", 34.90, 5),
+    Livro("Design Patterns", "GoF", 120.00, 3)
+)
+\end{lstlisting}
+
+Escreva trechos de código Kotlin que realizem as seguintes operações utilizando funções de alta ordem:
+
+\begin{enumerate}[label=\alph*)]
+    \item Filtrar somente os livros com preço menor que R\$ 70,00.
+    \item Obter uma lista contendo apenas os títulos dos livros com avaliação igual a 5.
+    \item Calcular o preço total de todos os livros da lista (dica: use \texttt{sumOf}).
+\end{enumerate}
+
+\vspace{0.3cm}
+\resposta{7cm}
+
+\vspace{1cm}
+\hrule
+\vspace{0.3cm}
+\begin{center}
+    \textit{Boa revisão!}
+\end{center}
+
+\end{document}

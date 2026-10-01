@@ -1,0 +1,26 @@
+# Pasta de notas de alunos (ignorar do controle de versão)
+notas/
+
+# Arquivos temporários e de compilação do LaTeX
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.synctex.gz
+*.toc
+*.snm
+*.nav
+*.vrb
+*.bbl
+*.blg
+
+# Dependências de projetos (Node.js / npm)
+node_modules/
+package-lock.json
+
+# Arquivos do Sistema Operacional e IDEs
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

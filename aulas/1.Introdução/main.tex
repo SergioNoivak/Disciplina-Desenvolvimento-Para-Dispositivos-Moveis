@@ -1,0 +1,537 @@
+\documentclass[9pt]{beamer}
+\mode<presentation>
+
+% Theme choice:
+\usetheme{Madrid}
+
+\usecolortheme[RGB={0,100,50}]{structure}
+\usefonttheme{structurebold} 
+\setbeamercovered{invisible}
+
+\usepackage{textpos}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage[portuguese]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{hyperref}
+
+\uselanguage{Portuguese}
+\languagepath{Portuguese}
+
+\deftranslation[to=Portuguese]{Theorem}{Teorema}
+\deftranslation[to=Portuguese]{Lemma}{Lema}
+\deftranslation[to=Portuguese]{Corollary}{Corolário}
+\deftranslation[to=Portuguese]{Proof}{Prova}
+
+% Title page details: 
+\title[Apresentação do Professor]{Apresentação do Professor: Me. Sergio Souza Novak}
+\subtitle{Desenvolvimento de Software para Dispositivos Móveis}
+
+\author[Prof. Sergio Novak]{Prof. Me. Sergio Souza Novak}
+
+\institute[UniRV]{
+  Faculdade de Engenharia de Software\\
+  Universidade de Rio Verde (UniRV)
+} 
+
+\date{\today}
+
+\begin{document}
+
+% Slide 1: Capa
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% Slide 2: Quem Sou Eu
+\section{Apresentação}
+\begin{frame}{Quem sou Eu?}{Visão Geral \& Trajetória Profissional}
+  \begin{columns}[c]
+    \begin{column}{0.68\textwidth}
+      \begin{block}{Prof. Me. Sergio Souza Novak}
+        \begin{itemize}
+          \item \textbf{Atuação Atual:} Professor na Faculdade de Engenharia de Software da \textbf{Universidade de Rio Verde (UniRV)}.
+          \item \textbf{Pesquisa em Andamento:} Doutorando em Ciências Agrárias no \textbf{IF Goiano} (Campus Rio Verde).
+          \item \textbf{Perfil Técnico-Científico:} Atuação em Ciência da Computação, Engenharia de Software, IA, Visão Computacional e IoT.
+          \item \textbf{Compromisso Acadêmico:} Ensino de graduação, soluções de software aplicadas, inovação e projetos de extensão.
+        \end{itemize}
+      \end{block}
+      
+      \begin{exampleblock}{Resumo de Impacto}
+        Desenvolvedor de soluções tecnológicas com foco em IA aplicada ao Agronegócio, Softwares Educacionais e IoT, com patentes registradas no INPI.
+      \end{exampleblock}
+    \end{column}
+
+    \begin{column}{0.30\textwidth}
+      \centering
+      \includegraphics[width=\textwidth,height=0.68\textheight,keepaspectratio]{../../foto_sergio.jpeg}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% Slide 3: Formação Acadêmica
+\section{Formação Acadêmica}
+\begin{frame}{Formação Acadêmica}{Titulações e Instituições}
+  \begin{itemize}
+    \item \textbf{Doutorado em Ciências Agrárias (Em andamento -- 2026)}
+    \begin{itemize}
+      \item \textit{Instituto Federal Goiano (IF Goiano -- Campus Rio Verde)}
+      \item \textbf{Foco:} Inteligência Artificial, Visão Computacional (YOLO), IoT e Controle de Irrigação.
+      \item \textbf{Orientador:} Prof. Dr. Marconi Batista Teixeira.
+    \end{itemize}
+    
+    \vspace{0.15cm}
+    \item \textbf{Mestrado em Produção Vegetal Sustentável no Cerrado (2024 -- 2025)}
+    \begin{itemize}
+      \item \textit{Instituto Federal Goiano (IF Goiano -- Campus Rio Verde)}
+      \item \textbf{Dissertação:} \textit{Plataforma IoT Inteligente para Controle de Irrigação e Monitoramento de Frutos na Agricultura de Precisão}.
+      \item \textbf{Orientador:} Prof. Dr. Adriano Soares de Oliveira Bailão.
+    \end{itemize}
+
+    \vspace{0.15cm}
+    \item \textbf{Especialização em Docência no Ensino Superior (2025)}
+    \begin{itemize}
+      \item \textit{Anhanguera Educacional} (360h).
+    \end{itemize}
+
+    \vspace{0.15cm}
+    \item \textbf{Bacharelado em Ciência da Computação (2015 -- 2022)}
+    \begin{itemize}
+      \item \textit{Instituto Federal Goiano (IF Goiano -- Campus Rio Verde)}
+      \item \textbf{TCC:} Classificação de Regras de Autômatos Celulares Elementares Aplicadas em Redes do tipo Small-World.
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+% Slide 4: Atuação Profissional
+\section{Atuação Profissional}
+\begin{frame}{Atuação Profissional}{Experiência no Mercado e na Docência}
+  \begin{block}{Universidade de Rio Verde (UniRV) \hfill \small (2026 -- Atual)}
+    \begin{itemize}
+      \item Professor Substituto na Faculdade de Engenharia de Software (FES).
+      \item Disciplinas voltadas ao desenvolvimento de software, mobilidade e inovação.
+    \end{itemize}
+  \end{block}
+
+  \begin{block}{ENACOM -- Engenharia Assistida por Computador \hfill \small (2022 -- 2025)}
+    \begin{itemize}
+      \item \textbf{Cargo:} Desenvolvedor Web 3 (Celetista, 40h/semana).
+      \item \textbf{Atribuições:} Desenvolvimento Front-end, Back-end e Otimização de sistemas para grandes empresas do setor de Logística e Siderurgia.
+    \end{itemize}
+  \end{block}
+
+  \begin{block}{Prefeitura Municipal de Rio Verde (PMRV) \hfill \small (2020 -- Atual)}
+    \begin{itemize}
+      \item \textbf{Cargo:} Docente no Programa de Apoio à Juventude (Diretoria da Juventude).
+      \item \textbf{Atribuições:} Ensino de informática básica, avançada e análise de dados (Excel) para a comunidade.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+% Slide 5: Formação Complementar
+\section{Competências}
+\begin{frame}{Formação Complementar \& Stack Técnica}{Aperfeiçoamento Contínuo}
+  \begin{columns}[t]
+    \begin{column}{0.48\textwidth}
+      \begin{block}{Inteligência Artificial \& Dados}
+        \begin{itemize}
+          \item Deep Learning com PyTorch \& Keras
+          \item Validação de Modelos de Machine Learning
+          \item Python para Data Science, Pandas \& Numpy
+          \item Estatística Aplicada, Probabilidade \& Amostragem
+        \end{itemize}
+      \end{block}
+
+      \begin{block}{Sistemas Embarcados \& Infra}
+        \begin{itemize}
+          \item Raspberry Pi \& Microcontroladores ESP32
+          \item Docker \& Conteinerização
+          \item Linux, Shell Scripting \& Redes Wireless
+        \end{itemize}
+      \end{block}
+    \end{column}
+
+    \begin{column}{0.48\textwidth}
+      \begin{block}{Desenvolvimento Web \& Backend}
+        \begin{itemize}
+          \item \textbf{Node.js:} API Rest com Express, MongoDB, Filtros \& Paginação
+          \item \textbf{.NET / C\#:} Web APIs em .NET 6 e aplicações robustas
+          \item \textbf{Elixir:} Programação Funcional \& Pattern Matching
+          \item \textbf{SQL:} MySQL \& Data Warehouse / BI
+        \end{itemize}
+      \end{block}
+
+      \begin{block}{Frontend \& Desktop}
+        \begin{itemize}
+          \item Angular (Framework \& Testes com Jasmine/Karma)
+          \item Vue 3
+          \item Electron (HTML+CSS+JS para Desktop)
+        \end{itemize}
+      \end{block}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% Slide 6: Linhas de Pesquisa
+\section{Pesquisa \& Inovação}
+\begin{frame}{Linhas de Pesquisa e Interesses}{Áreas de Investigação Científica}
+  \begin{block}{1. Inteligência Artificial e Visão Computacional}
+    \begin{itemize}
+      \item Modelos de Deep Learning (família \textbf{YOLO}) para detecção e classificação em tempo real.
+      \item Aplicação em visão computacional agrícola (maturação de frutos, identificação de pragas, aquicultura).
+    \end{itemize}
+  \end{block}
+
+  \begin{block}{2. Internet das Coisas (IoT) \& Agricultura de Precisão}
+    \begin{itemize}
+      \item Redes de sensores sem fio, integração ESP32 e atuadores hidráulicos.
+      \item Sistemas de tomada de decisão inteligente usando \textbf{Lógica Fuzzy (Névoa/Nuvem)}.
+    \end{itemize}
+  \end{block}
+
+  \begin{block}{3. Autômatos Celulares, Grafos e Sistemas Educacionais}
+    \begin{itemize}
+      \item Modelagem de Redes do tipo \textit{Small-World} e Autômatos Celulares Elementares.
+      \item Desenvolvimento de softwares educacionais para ensino de algoritmos de Grafos e Colônia de Formigas.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+% Slide 7: Projeto de Pesquisa Principal
+\begin{frame}{Projeto de Pesquisa em Destaque}{Percepção Multimodal em Sistemas IoT}
+  \begin{alertblock}{Projeto (2024 -- Atual)}
+    \small \textbf{Percepção Multimodal em Sistemas IoT para Agricultura de Precisão:} Uma Abordagem Integrada com Visão Computacional, Computação Sônica e Dados de Sensores Ambientais.
+  \end{alertblock}
+
+  \begin{columns}[c]
+    \begin{column}{0.55\textwidth}
+      \begin{itemize}
+        \item \small \textbf{Objetivo:} Sistema IoT em ambiente protegido (fazendas verticais / estufas).
+        \item \small \textbf{Componentes:}
+          \begin{enumerate}
+            \item \small \textbf{Irrigação Inteligente:} Lógica Fuzzy na nuvem.
+            \item \small \textbf{Visão Computacional:} Redes de IA (YOLO) para tomates-cereja.
+            \item \small \textbf{Sensores Ambientais:} Sensores de umidade/temperatura e acionadores ESP32.
+          \end{enumerate}
+        \item \small \textbf{Resultados:} Automação sustentável, economia de água e maior produtividade.
+      \end{itemize}
+    \end{column}
+
+    \begin{column}{0.42\textwidth}
+      \centering
+      \includegraphics[width=\textwidth,height=0.55\textheight,keepaspectratio]{../../projeto_1.jpg}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% Slide 8: Propriedade Intelectual - Parte 1
+\section{Patentes \& Registros}
+\begin{frame}{Propriedade Intelectual (INPI)}{Programas de Computador Registrados -- Softwares Educacionais e Ferramentas}
+  \begin{block}{Registros INPI (2024 -- 2025)}
+    \begin{itemize}
+      \item \textbf{GraphSweetGrapes} (BR512025000991-7): Sistema Educacional para Algoritmos de Grafos.
+      \item \textbf{GraphicalAnt} (BR5120250009-9): Sistema Educacional de Algoritmos baseados em Colônia de Formigas.
+      \item \textbf{CellularAutomataGraph 3} (BR5120250009-9): Sistema Educacional para Autômatos Celulares Elementares e Redes Small-World.
+      \item \textbf{cbased} (BR5120250009-8): Compilador de linguagem baseada em C para Assembly AT\&T.
+      \item \textbf{Analisador e Agrupador não Supervisionado de Strings Longas} (BR5120240048-5): Algoritmos de clusterização de textos.
+    \end{itemize}
+  \end{block}
+  \pause
+  \begin{exampleblock}{Impacto Pedagógico}
+    Estes softwares visam facilitar a aprendizagem de lógica de programação complexa, estruturas de dados avançadas e compiladores por estudantes de graduação.
+  \end{exampleblock}
+\end{frame}
+
+% Slide 9: Propriedade Intelectual - Parte 2
+\begin{frame}{Propriedade Intelectual (INPI)}{Ecossistema IoT e Agrícola ``TomAi''}
+  \begin{block}{Patentes e Registros de Software no INPI (2025)}
+    \begin{itemize}
+      \item \textbf{Sistema de Irrigação Fuzzy Inteligente} (BR512025001780-4)
+      \item \textbf{Servidor Python Back-end TomAi} (BR512025002370-7)
+      \item \textbf{Servidor Backend LLM Tomai Chat Inteligente} (BR512025006984-7)
+      \item \textbf{ICWMA 3} (BR512025006944-8): Interface Conversacional Web para Monitoramento Agrícola.
+      \item \textbf{Leitor de Sensor de Umidade de Solo e DHT} para ESP32 TomAi (BR512025001784-7).
+      \item \textbf{Sistema de Agendamentos de Irrigação TomAi} (BR512025001773-1).
+      \item \textbf{Acionador Bomba Hidráulica TomAi} para ESP32 (BR512025001771-5).
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+% Slide 10: Propriedade Intelectual - Parte 3
+\begin{frame}{Propriedade Intelectual (INPI)}{Outras Inovações Registradas}
+  \begin{block}{Softwares e Aplicações Móveis/Web Registrados}
+    \begin{itemize}
+      \item \textbf{TortoiseVisionY Detect} (BR512025006991-0): Sistema de detecção e visão computacional para identificação de jabutis baseado em YOLO.
+      \item \textbf{Dia -- Software de Dimensionamento de Irrigação por Aspersão} (BR512024004851-0): Dimensionamento hidráulico automatizado.
+      \item \textbf{Aplicativo Agroinsect} (BR512026004055-8): Aplicativo móvel para identificação e auxílio no manejo de insetos.
+      \item \textbf{Site AgroLabIA} (BR512026004062-0): Plataforma web de divulgação e serviços de inteligência artificial aplicada.
+    \end{itemize}
+  \end{block}
+
+  \begin{exampleblock}{Destaque para o Desenvolvimento Mobile}
+    A integração entre \textbf{dispositivos móveis, sensores físicos (ESP32) e nuvem} é um dos pilares do meu trabalho de pesquisa e inovação tecnológica!
+  \end{exampleblock}
+\end{frame}
+
+% Slide 11: Produção Bibliográfica
+\section{Publicações}
+\begin{frame}{Produção Bibliográfica}{Artigos Científicos Publicados em Periódicos}
+  \begin{itemize}
+    \item \textbf{Revista de Derecho y Câmbio Social (2026):}
+      \begin{itemize}
+        \item \textit{Avaliação comparativa de arquiteturas Yolo para identificação de jabutis e implementação do software Tortoisevisiony Detect}.
+        \item \textit{Formação continuada de professores para o uso da Inteligência Artificial: relato de uma ação extensionista em três edições}.
+      \end{itemize}
+    \vspace{0.15cm}
+    \item \textbf{CADERNO PEDAGÓGICO (2025):}
+      \begin{itemize}
+        \item \textit{Sistema de irrigação inteligente baseado em lógica fuzzy integrado com internet das coisas para a cultura do tomate cereja}.
+        \item \textit{Detecção de abelhas nativas do Cerrado Brasileiro com Rede Neural Convolucional YOLOv8}.
+      \end{itemize}
+    \vspace{0.15cm}
+    \item \textbf{Brazilian Journal of Development (2025):}
+      \begin{itemize}
+        \item \textit{Avaliação comparativa de modelos YOLO para classificação e quantificação automatizadas de estágios de amadurecimento de tomates cereja}.
+      \end{itemize}
+    \vspace{0.15cm}
+    \item \textbf{RECIMA21 (2026):}
+      \begin{itemize}
+        \item \textit{Artificial Intelligence in Hydroponic Vegetable Production: Smart Management, Sustainability and Consumer-Perceived Value}.
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+% Slide 12: Livros Publicados
+\begin{frame}{Livros e Capítulos Publicados}{Produção Editorial Científica}
+  \begin{columns}[t]
+    \begin{column}{0.48\textwidth}
+      \begin{block}{1. Quando a Tecnologia Aprende a Ensinar}
+        \begin{itemize}
+          \item \textbf{Subtítulo:} Guia prático de inteligência artificial para educadores.
+          \item \textbf{Edição:} Pedro \& João Editores, 2026.
+          \item \textbf{Foco:} Aplicação ética e prática de ferramentas de IA no ambiente escolar.
+        \end{itemize}
+      \end{block}
+
+      \begin{block}{2. Tópicos em Confiabilidade e Qualidade de Software}
+        \begin{itemize}
+          \item \textbf{Editora:} Zenodo (Suíça), 2026.
+          \item \textbf{Foco:} Testes, validação e engenharia de software de alta qualidade.
+        \end{itemize}
+      \end{block}
+    \end{column}
+
+    \begin{column}{0.48\textwidth}
+      \begin{block}{3. Estatística Experimental}
+        \begin{itemize}
+          \item \textbf{Subtítulo:} Do Iniciante ao Iniciado.
+          \item \textbf{Editora:} CERN / Zenodo (Suíça), 2026.
+          \item \textbf{Foco:} Modelagem estatística e análise de experimentos.
+        \end{itemize}
+      \end{block}
+
+      \begin{block}{4. Patentes Concedidas em Goiás}
+        \begin{itemize}
+          \item \textbf{Subtítulo:} Indicadores de Inovação e Desempenho Tecnológico.
+          \item \textbf{Editora:} Zenodo (Suíça), 2026.
+        \end{itemize}
+      \end{block}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% Slide 13: Projetos de Extensão
+\section{Extensão \& Comunidade}
+\begin{frame}{Projetos de Extensão \& Eventos}{Impacto na Comunidade Externa}
+  \begin{block}{Projeto de Extensão: ``Evolucionando o Ensino com IA'' (2026 -- Atual)}
+    \begin{itemize}
+      \item \textbf{Coordenador:} Prof. Sergio Souza Novak.
+      \item \textbf{Parceria:} Faculdade de Engenharia de Software (UniRV) \& Secretaria Municipal de Educação de Rio Verde.
+      \item \textbf{Objetivo:} Capacitar professores da rede pública municipal no uso prático e consciente de Inteligência Artificial na sala de aula.
+    \end{itemize}
+  \end{block}
+
+  \begin{block}{Organização de Eventos \& Palestras}
+    \begin{itemize}
+      \item \textbf{Workshop:} \textit{Tópicos em Internet das Coisas e Visão Computacional com Estudo de Caso em Irrigação de Tomate Cereja} (2025).
+      \item \textbf{Palestra:} \textit{Uso da Lógica Fuzzy na Solução de Problemas da Agroindústria} (2025).
+      \item \textbf{Lual NEPEDS} do Instituto Federal Goiano (2025).
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+% Slide 14: Datasets e Produção Técnica
+\section{Produção Técnica}
+\begin{frame}{Datasets Abertos \& Recursos de Pesquisa}{Contribuição para a Comunidade de IA}
+  \begin{block}{Bases de Dados Públicas Anotadas para Visão Computacional}
+    Conjuntos de dados desenvolvidos e publicados com anotações de polígonos para treinamento de redes de Deep Learning em Aquicultura:
+    \begin{itemize}
+      \item \textbf{TilapiaVisionDataset:} Base de dados de imagens anotadas para \textit{Oreochromis niloticus} (DOI: 10.17632/bnst7jsdcx.1).
+      \item \textbf{Oreochromis niloticus Fingerlings WhiteTray Datasets:}
+        \begin{itemize}
+          \item Datasets anotados com densidades de 10, 20, 30, 40 e 50 alevinos por imagem.
+          \item Utilizados para desenvolvimento de modelos de contagem automática e monitoramento comportamental em tempo real.
+        \end{itemize}
+    \end{itemize}
+  \end{block}
+
+  \begin{exampleblock}{Repositório e Acesso}
+    Disponibilizados publicamente em plataformas científicas globais (Zenodo e Mendeley Data).
+  \end{exampleblock}
+\end{frame}
+
+% =======================================================
+% SEÇÃO: AVISOS IMPORTANTES (REGRAS DA DISCIPLINA)
+% =======================================================
+\section{Avisos Importantes}
+
+% Slide 16 (Aviso 1)
+\begin{frame}{Avisos Importantes}{Permanência em Sala de Aula}
+  \begin{alertblock}{Regra de Convivência \& Concentração}
+    \textbf{Não será permitido ao aluno ficar transitando no momento da aula.}
+  \end{alertblock}
+
+  \begin{block}{Diretrizes}
+    \begin{itemize}
+      \item A circulação constante em sala prejudica o andamento das explicações e a concentração dos colegas.
+      \item Organize seus materiais antes do início das atividades.
+      \item Necessidades pontuais devem ser alinhadas com o professor sem interromper a aula.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+% Slide 17 (Aviso 2)
+\begin{frame}{Avisos Importantes}{Horários e Pontualidade}
+  \begin{alertblock}{Cumprimento de Horários}
+    \textbf{Obedecer ao horário de início e fim das aulas.}
+  \end{alertblock}
+
+  \begin{block}{Procedimento para Atrasos}
+    \begin{itemize}
+      \item Se o aluno chegar atrasado, \textbf{deve entrar em silêncio e permanecer em silêncio}.
+      \item Respeite o momento da aula e evite conversas ou movimentações que dispersem a turma.
+      \item Dúvidas sobre o conteúdo já explicado devem ser tiradas em momento oportuno (ao final do bloco de explicação).
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+% Slide 18 (Aviso 3)
+\begin{frame}{Avisos Importantes}{Controle de Frequência e Chamada}
+  \begin{block}{Momento da Chamada}
+    \begin{itemize}
+      \item A chamada será realizada \textbf{sempre antes do término de cada aula}, salvo algum evento fora do previsto.
+    \end{itemize}
+  \end{block}
+
+  \begin{alertblock}{Presença}
+    \begin{itemize}
+      \item \textbf{Não será atribuída presença aos alunos que estiverem fora de sala} no momento do registro.
+      \item Certifique-se de estar presente em sala durante a verificação de frequência.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% Slide 19 (Aviso 4)
+\begin{frame}{Avisos Importantes}{Frequência Mínima Exigida}
+  \begin{block}{Faltas Vigentes}
+    \begin{itemize}
+      \item O aluno deverá ter no mínimo \textbf{75\% de presença} na disciplina para aprovação por frequência.
+      \item Carga horária total da disciplina: \textbf{72 h/a}.
+    \end{itemize}
+  \end{block}
+
+  \begin{exampleblock}{Limite de Ausências}
+    \begin{itemize}
+      \item O limite máximo de faltas permitidas ao longo do semestre é de \textbf{25\% da carga horária} (18 horas/aula).
+      \item Acompanhe seu registro de frequência periodicamente para evitar reprovação por faltas.
+    \end{itemize}
+  \end{exampleblock}
+\end{frame}
+
+% Slide 20 (Aviso 5)
+\begin{frame}{Avisos Importantes}{Abono de Faltas por Atestado}
+  \begin{block}{Critérios para Atestados Médicos}
+    \begin{itemize}
+      \item O aluno tem direito ao abono de faltas \textbf{somente com atestado de 4 dias ou mais}.
+    \end{itemize}
+  \end{block}
+
+  \begin{alertblock}{Observações Cruciais}
+    \begin{itemize}
+      \item O abono aplica-se \textbf{apenas às faltas}, e \textbf{não às atividades avaliativas}.
+      \item A regularização será concretizada após a realização de uma \textbf{atividade proposta pelo professor}.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% Slide 21 (Aviso 6)
+\begin{frame}{Avisos Importantes}{Regras para Avaliações}
+  \begin{block}{Formato e Apresentação}
+    \begin{itemize}
+      \item As avaliações presenciais/impressas \textbf{deverão ser feitas obrigatoriamente a caneta}.
+      \item Provas ou avaliações respondidas a lápis não serão passíveis de pedido de reavaliação ou revisão de nota.
+      \item Mantenha a clareza e organização na resolução das questões.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+% Slide 22 (Aviso 7)
+\begin{frame}{Avisos Importantes}{Segunda Chamada de Avaliações}
+  \begin{alertblock}{Requisito Obrigatório}
+    \begin{itemize}
+      \item O aluno só terá direito à segunda chamada de atividade avaliativa \textbf{mediante apresentação de atestado médico}.
+    \end{itemize}
+  \end{alertblock}
+
+  \begin{block}{Procedimento}
+    \begin{itemize}
+      \item Será marcada uma nova data de aplicação.
+      \item Na segunda chamada, o aluno realizará uma \textbf{atividade/prova diferente} da aplicada originalmente aos demais alunos.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+% Slide 23 (Aviso 8)
+\begin{frame}{Avisos Importantes}{Entregas Atrasadas \& Canais de Comunicação}
+  \begin{block}{Trabalhos Entregues Atrasados}
+    \begin{itemize}
+      \item As atividades entregues fora do prazo estipulado terão o valor máximo reduzido para a \textbf{metade da nota} (50\% do valor).
+    \end{itemize}
+  \end{block}
+
+  \begin{exampleblock}{Uso do WhatsApp e Canais Oficiais}
+    \begin{itemize}
+      \item O \textbf{WhatsApp} deve ser utilizado como veículo de comunicação apenas em casos de \textbf{urgência extrema}.
+      \item Dúvidas de conteúdo, tarefas e comunicação regular devem ser encaminhadas via \textbf{e-mail} ou pelo \textbf{Google Classroom}.
+    \end{itemize}
+  \end{exampleblock}
+\end{frame}
+
+% Slide 24: Conexão com a Disciplina & Contato
+\section{Encerramento}
+\begin{frame}{Conectando à Disciplina \& Contatos}{Desenvolvimento de Software para Dispositivos Móveis}
+  \begin{block}{O que veremos em nossa disciplina?}
+    \begin{itemize}
+      \item Construção de aplicações móveis modernas, responsivas e performáticas.
+      \item Integração com APIs Rest, serviços na nuvem e sensores dos dispositivos.
+      \item Boas práticas de Engenharia de Software, testes e arquitetura limpa.
+      \item Uso de IA e conectividade IoT em apps móveis.
+    \end{itemize}
+  \end{block}
+
+  \begin{exampleblock}{Canais de Contato \& Links Acadêmicos}
+    \begin{itemize}
+      \item \textbf{Professor:} Prof. Me. Sergio Souza Novak
+      \item \textbf{Lattes iD:} \url{http://lattes.cnpq.br/0658208580916976}
+      \item \textbf{ORCID iD:} \url{https://orcid.org/0009-0007-6864-2332}
+      \item \textbf{Instituição:} Universidade de Rio Verde (UniRV) -- Faculdade de Engenharia de Software
+    \end{itemize}
+  \end{exampleblock}
+\end{frame}
+
+\end{document}
+

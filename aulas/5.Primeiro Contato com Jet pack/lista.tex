@@ -1,0 +1,226 @@
+\documentclass[12pt]{article}
+
+% Idioma e codificação
+\usepackage[brazil]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+% Matemática e listas
+\usepackage{amsmath, amssymb}
+\usepackage{enumitem}
+
+% Layout e cores
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{xcolor}
+
+% Diagramas e Portas Lógicas
+\usepackage{tikz}
+\usetikzlibrary{shapes.gates.logic.US, positioning, arrows.meta, calc, fit, shadows.blur}
+
+% Cores institucionais
+\definecolor{maincolor}{RGB}{0, 79, 151}
+\definecolor{meuazul}{RGB}{0, 79, 151}
+
+% Cabeçalho e rodapé
+\usepackage{fancyhdr}
+
+% Blocos
+\usepackage[most]{tcolorbox}
+\newtcolorbox{block}[1]{%
+  colback=blue!5,
+  colframe=maincolor,
+  coltitle=white,
+  title=#1,
+  fonttitle=\bfseries,
+  boxrule=1.5pt,
+  arc=3mm,
+  left=6pt,
+  right=6pt,
+  top=6pt,
+  bottom=6pt
+}
+
+\newtcolorbox{resposta}[1]{%
+  colback=white,
+  colframe=meuazul!30,
+  arc=1mm,
+  height=#1,
+  width=\textwidth,
+  boxrule=0.8pt
+}
+
+% Margens
+\geometry{margin=2.5cm}
+
+% Fancyhdr
+\pagestyle{fancy}
+\fancyhf{}
+
+\renewcommand{\headrulewidth}{2pt}
+\renewcommand{\footrulewidth}{2pt}
+
+\renewcommand{\headrule}{\hbox to\headwidth{%
+  \color{meuazul}\leaders\hrule height \headrulewidth\hfill}}
+
+\renewcommand{\footrule}{\hbox to\headwidth{%
+  \color{meuazul}\leaders\hrule height \footrulewidth\hfill}}
+
+\setlength{\headheight}{52pt}
+\addtolength{\topmargin}{-20pt}
+
+\fancyhead[L]{%
+  \includegraphics[height=1.2cm]{logo.png}
+}
+
+\fancyhead[R]{%
+  \raggedleft
+  \textcolor{meuazul}{%
+    \small
+    \textbf{Lista de Exercícios 4}\\
+    Me.~Sergio Souza Novak\\
+    \textit{Desenvolvimento de Software para Dispositivos Móveis}
+  }
+}
+
+\fancyfoot[C]{\textcolor{meuazul}{\thepage}}
+
+% =========================
+\begin{document}
+% =========================
+
+\vspace*{0.2cm}
+
+\begin{center}
+  {\Large \textbf{Exercício de Implementação --- Jetpack Compose}}\\[0.2cm]
+  \textit{Instruções: Implemente o exercício a seguir utilizando o Android Studio com Jetpack Compose.}\\[0.15cm]
+  \textbf{Entrega:} O aluno deverá entregar \textbf{apenas um único arquivo Kotlin} (\texttt{MainActivity.kt})
+  contendo todo o código-fonte, acompanhado de uma \textbf{pasta com as imagens de recurso} utilizadas no projeto (ex: fotos dos avatares).
+\end{center}
+
+\vspace{0.4cm}
+
+% ── Exercício ───────────────────────────────────────────────────────────────
+\textbf{Contexto:} Você foi contratado para desenvolver o protótipo de um aplicativo de videoconferências.
+Sua tarefa é implementar a \textbf{tela de reunião em andamento} usando Jetpack Compose no Android Studio.
+
+\vspace{0.3cm}
+\textbf{Requisitos obrigatórios:}
+
+\begin{enumerate}[label=\textbf{\arabic*.}]
+  \item Criar um novo projeto no Android Studio com o template \textbf{Empty Activity} (Jetpack Compose).
+  \item \textbf{Package name:} \texttt{com.seunome.meetingapp}
+  \item A tela deve conter os seguintes elementos, conforme o wireframe abaixo:
+  \begin{itemize}
+    \item \textbf{Barra superior} com os nomes dos participantes da reunião (ex: ``Ethan, Alison, Daniela'') e a quantidade de pessoas (ex: ``8 people'').
+    \item \textbf{Área central} com a foto (ou avatar circular) do participante em destaque e seu nome (ex: ``Ethan Martinez'').
+    \item \textbf{Barra de controles inferior} com 3 botões de ação dispostos em \texttt{Row}:
+      \begin{itemize}
+        \item \textbf{Mute} (microfone) --- ícone com rótulo.
+        \item \textbf{Raise} (levantar a mão) --- ícone com rótulo.
+        \item \textbf{Audio} (alto-falante) --- ícone com rótulo.
+      \end{itemize}
+    \item \textbf{Botão de encerrar chamada} (vermelho, centralizado) abaixo dos controles.
+  \end{itemize}
+  \item Usar \texttt{data class} para representar um \textbf{Participante} (nome, foto).
+  \item Criar componentes \texttt{@Composable} separados para: avatar do participante, botão de controle e barra de controles.
+  \item Implementar \textbf{Preview} com \texttt{@Preview} para visualizar a tela sem executar o app.
+\end{enumerate}
+
+\vspace{0.4cm}
+\textbf{Wireframe de referência:}
+
+\vspace{0.3cm}
+\begin{center}
+\begin{tikzpicture}[
+  scale=0.85, transform shape,
+  % Estilos
+  tela/.style={draw, rounded corners=12pt, minimum width=7cm, minimum height=12cm, fill=black!85, thick, draw=gray!50},
+  barra/.style={draw=none, fill=black!70, minimum height=1.2cm, minimum width=6cm, rounded corners=4pt, align=center},
+  avatar/.style={draw=gray!40, fill=gray!30, circle, minimum size=2.5cm, thick},
+  btnctrl/.style={draw=gray!40, fill=gray!20, circle, minimum size=1.2cm, align=center},
+  btnend/.style={draw=red!70!black, fill=red!65, rounded corners=14pt, minimum width=3.5cm, minimum height=0.85cm, align=center},
+  lbl/.style={font=\tiny, text=white},
+  lbldark/.style={font=\tiny, text=gray!60},
+]
+
+  % Corpo do telefone
+  \node[tela] (phone) {};
+
+  % --- Barra superior ---
+  \node[barra, anchor=north, yshift=-0.3cm, font=\scriptsize\bfseries, text=white] (header) at (phone.north) {Ethan, Alison, Daniela};
+  \node[lbldark, below=0.05cm of header] (pcount) {8 people};
+
+  % --- Mini avatares dos outros participantes ---
+  \node[draw=gray!40, fill=gray!25, circle, minimum size=0.9cm, thick] (p1) at ([yshift=2.8cm, xshift=-1.5cm]phone.center) {};
+  \node[font=\tiny, text=gray!60] at (p1) {A};
+  \node[lbl, below=0.08cm of p1, font=\tiny] {Alison};
+
+  \node[draw=gray!40, fill=gray!25, circle, minimum size=0.9cm, thick] (p2) at ([yshift=2.8cm]phone.center) {};
+  \node[font=\tiny, text=gray!60] at (p2) {D};
+  \node[lbl, below=0.08cm of p2, font=\tiny] {Daniela};
+
+  \node[draw=gray!40, fill=gray!25, circle, minimum size=0.9cm, thick] (p3) at ([yshift=2.8cm, xshift=1.5cm]phone.center) {};
+  \node[font=\tiny, text=gray!60] at (p3) {L};
+  \node[lbl, below=0.08cm of p3, font=\tiny] {Lucas};
+
+  % --- Avatar central (participante em destaque) ---
+  \node[avatar] (av) at ([yshift=0.5cm]phone.center) {};
+  \node[font=\tiny, text=gray!50] at (av) {Foto};
+  \node[lbl, below=0.3cm of av, font=\small\bfseries] (nome) {Ethan Martinez};
+
+  % --- Botões de controle ---
+  \node[btnctrl] (mute) at ([yshift=-3cm, xshift=-1.8cm]phone.center) {};
+  \node[font=\tiny, text=gray!70] at (mute) {$\diagup$};
+  \node[lbl, below=0.15cm of mute] {Mute};
+
+  \node[btnctrl] (raise) at ([yshift=-3cm]phone.center) {};
+  \node[font=\tiny, text=gray!70] at (raise) {$\uparrow$};
+  \node[lbl, below=0.15cm of raise] {Raise};
+
+  \node[btnctrl] (audio) at ([yshift=-3cm, xshift=1.8cm]phone.center) {};
+  \node[font=\tiny, text=gray!70] at (audio) {$))$};
+  \node[lbl, below=0.15cm of audio] {Audio};
+
+  % --- Botão encerrar ---
+  \node[btnend, font=\small\bfseries, text=white] (hangup) at ([yshift=-4.8cm]phone.center) {Encerrar};
+
+  % --- Anotações laterais ---
+  \draw[dashed, gray!50, -{Stealth[length=3pt]}] ([xshift=3.8cm]header.east) -- (header.east)
+    node[pos=0, right, font=\tiny, text=gray!70, align=left] {Row \textbraceleft\\ \quad Text(participantes)\\ \quad Text(contagem)\\ \textbraceright};
+
+  \draw[dashed, gray!50, -{Stealth[length=3pt]}] ([xshift=3.8cm]av.east) -- (av.east)
+    node[pos=0, right, font=\tiny, text=gray!70, align=left] {Column \textbraceleft\\ \quad Image(avatar)\\ \quad Text(nome)\\ \textbraceright};
+
+  \draw[dashed, gray!50, -{Stealth[length=3pt]}] ([xshift=3.8cm]raise.east) -- (audio.east)
+    node[pos=0, right, font=\tiny, text=gray!70, align=left] {Row \textbraceleft\\ \quad BotaoControle(Mute)\\ \quad BotaoControle(Raise)\\ \quad BotaoControle(Audio)\\ \textbraceright};
+
+  \draw[dashed, gray!50, -{Stealth[length=3pt]}] ([xshift=3.8cm]hangup.east) -- (hangup.east)
+    node[pos=0, right, font=\tiny, text=gray!70, align=left] {Button(\\ \quad color = Vermelho,\\ \quad onClick = \textbraceleft...\textbraceright\\ )};
+
+\end{tikzpicture}
+\end{center}
+
+\vspace{0.3cm}
+\textbf{Dicas de componentes Compose:}
+\begin{itemize}
+  \item Use \texttt{Column}, \texttt{Row} e \texttt{Spacer} para organizar o layout.
+  \item Use \texttt{Image} com \texttt{Modifier.clip(CircleShape)} para o avatar circular.
+  \item Use \texttt{IconButton} ou \texttt{Button} para os controles.
+  \item Use \texttt{MaterialTheme.colorScheme} para cores do tema.
+  \item Fundo escuro: \texttt{Modifier.background(Color(0xFF1C1C1E))}.
+\end{itemize}
+
+
+\vspace{0.5cm}
+
+
+
+\vspace{0.6cm}
+
+\begin{center}
+  \textit{``Boa atividade! Att. Me. Prof. Sergio Souza Novak.''}
+\end{center}
+
+\end{document}
+% =========================

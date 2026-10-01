@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tela 3 - Histórico de Inferências</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+  body { background-color: #f0f4f8; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
+  
+  .phone-container {
+    width: 380px;
+    height: 780px;
+    background-color: #111827;
+    border-radius: 36px;
+    border: 10px solid #d1d8dd;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    color: #1f2937;
+    position: relative;
+  }
+
+  .status-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px 4px 20px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #6b7280;
+  }
+
+  .app-header {
+    padding: 10px 18px 6px 18px;
+    border-bottom: 1px solid #1a3846;
+  }
+
+  .header-title {
+    font-size: 17px;
+    font-weight: 700;
+    color: #111827;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .header-subtitle {
+    font-size: 11px;
+    color: #00c8eb;
+    margin-top: 2px;
+  }
+
+  .content-scroll {
+    flex: 1;
+    overflow-y: auto;
+    padding: 12px 16px 20px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  /* Stat Summary Banner */
+  .stat-banner {
+    background: linear-gradient(135deg, #005f73, #0a3d4a);
+    border-radius: 14px;
+    padding: 12px 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #00a8cc;
+  }
+
+  .stat-item {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .stat-val {
+    font-size: 20px;
+    font-weight: 800;
+    color: #111827;
+  }
+
+  .stat-lbl {
+    font-size: 10px;
+    color: #b0e0e6;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .search-box {
+    background-color: #142e38;
+    border: 1px solid #1c3c4a;
+    border-radius: 10px;
+    padding: 8px 12px;
+    font-size: 12px;
+    color: #7a9ba9;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .section-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: #6b7280;
+    margin-top: 4px;
+  }
+
+  /* History Items List */
+  .history-card {
+    background-color: #142e38;
+    border-radius: 14px;
+    padding: 12px;
+    border: 1px solid #1c3c4a;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+
+  .history-card:hover {
+    border-color: #00c8eb;
+  }
+
+  .card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .card-id {
+    font-size: 12px;
+    font-weight: 700;
+    color: #111827;
+  }
+
+  .card-date {
+    font-size: 11px;
+    color: #00c8eb;
+    font-weight: 600;
+  }
+
+  .card-details {
+    display: flex;
+    gap: 12px;
+    font-size: 11px;
+    color: #6b7280;
+  }
+
+  .detail-pill {
+    background-color: #0c1c23;
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-family: monospace;
+    font-size: 11px;
+    color: #1f2937;
+  }
+
+  .card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 2px;
+    padding-top: 6px;
+    border-top: 1px solid #1c3844;
+  }
+
+  .badge-synced {
+    background-color: rgba(0, 230, 118, 0.15);
+    color: #00e676;
+    border: 1px solid #00e676;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 10px;
+  }
+
+  .btn-arrow {
+    color: #00c8eb;
+    font-weight: bold;
+    font-size: 14px;
+  }
+
+
+    /* --- LIGHT MODE OVERRIDES --- */
+    body { background-color: #e2e8f0; }
+    .phone-container {
+      background-color: #f8fafc;
+      border: 10px solid #cbd5e1;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+      color: #1e293b;
+    }
+    .status-bar { color: #64748b; }
+    .header-title { color: #0f172a; }
+    .badge-local { background-color: #0ea5e9; color: #ffffff; }
+    .info-icon { background: #e0f2fe; color: #0284c7; }
+    .header-subtitle { color: #64748b; }
+    
+    .card, .main-card, .history-card, .meta-card, .bbox-item, .metric-card-sec {
+      background-color: #ffffff;
+      border: 1px solid #e2e8f0;
+    }
+    .card-header, .card-title, .card-id, .meta-val, .geom-val { color: #0f172a; }
+    .input-box, .detail-pill, .centroid-badge, .search-box {
+      background-color: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      color: #334155;
+    }
+    .btn-primary, .btn-action-big, .bbox-conf {
+      background-color: #0ea5e9;
+      color: #ffffff;
+    }
+    .btn-secondary, .btn-back {
+      background-color: transparent;
+      color: #0ea5e9;
+      border: 1px solid #0ea5e9;
+    }
+    .slider-labels, .exec-info, .section-label, .geom-lbl, .meta-lbl, .card-details { color: #64748b; }
+    .slider-labels span:last-child { color: #0ea5e9; }
+    .slider-track { background-color: #e2e8f0; }
+    .slider-fill, .slider-thumb { background-color: #0ea5e9; }
+    .slider-thumb { box-shadow: 0 0 6px rgba(14,165,233,0.5); }
+    .preview-box, .annotated-box {
+      background-color: #f8fafc;
+      border: 1px solid #e2e8f0;
+    }
+    .icon-blue, .btn-arrow, .table-title, .bbox-id { color: #0284c7; }
+    
+    /* Tela 2 specific overrides */
+    .metric-card-big { background-color: #0ea5e9; }
+    .metric-value { color: #ffffff; }
+    .metric-card-sec .metric-value { color: #0f172a; }
+    .class-pill { background-color: #f1f5f9; border: 1px solid #cbd5e1; color: #334155; }
+    .bbox { border: 2px solid #0ea5e9; box-shadow: 0 0 4px rgba(14,165,233,0.6); background-color: rgba(14,165,233,0.1); }
+    .bbox-label { background-color: #0ea5e9; color: #ffffff; }
+    .fish-shape { background-color: #94a3b8; }
+    
+    /* Tela 3 specific */
+    .app-header { border-bottom: 1px solid #e2e8f0; }
+    .stat-banner { background: linear-gradient(135deg, #0ea5e9, #0284c7); border: none; }
+    .stat-val { color: #ffffff; }
+    .stat-lbl { color: #e0f2fe; }
+    .card-date { color: #0ea5e9; }
+    .card-footer { border-top: 1px solid #e2e8f0; }
+    
+    /* Tela 4 specific */
+    .bbox-header { border-bottom: 1px solid #f1f5f9; }
+    
+    /* Bottom Navigation Bar CSS */
+    .bottom-nav {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      background-color: #ffffff;
+      border-top: 1px solid #e2e8f0;
+      height: 60px;
+      padding-bottom: 5px;
+    }
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #94a3b8;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      gap: 4px;
+      flex: 1;
+    }
+    .nav-item.active {
+      color: #0ea5e9;
+    }
+    .nav-icon {
+      font-size: 20px;
+    }
+    
+</style>
+</head>
+<body>
+
+<div class="phone-container">
+  <!-- Status Bar -->
+  <div class="status-bar">
+    <span>23:08</span>
+    <span>📶 🔋 83%</span>
+  </div>
+
+  <!-- App Header -->
+  <div class="app-header">
+    <div class="header-title">📜 Histórico de Inferências</div>
+    <div class="header-subtitle">● Sincronizado com o Servidor Backend</div>
+  </div>
+
+  <!-- Content Scroll -->
+  <div class="content-scroll">
+    <!-- Stat Banner -->
+    <div class="stat-banner">
+      <div class="stat-item">
+        <span class="stat-val">24</span>
+        <span class="stat-lbl">Inferências</span>
+      </div>
+      <div class="stat-item" style="border-left: 1px solid #00a8cc; padding-left: 14px;">
+        <span class="stat-val">842</span>
+        <span class="stat-lbl">Objetos Contados</span>
+      </div>
+      <div class="stat-item" style="border-left: 1px solid #00a8cc; padding-left: 14px;">
+        <span class="stat-val">909 ms</span>
+        <span class="stat-lbl">Média Tempo</span>
+      </div>
+    </div>
+
+    <!-- Search Box -->
+    <div class="search-box">
+      🔍 Filtrar por data ou modelo...
+    </div>
+
+    <div class="section-label">Registros Recentes (Toque para detalhes)</div>
+
+    <!-- History Card 1 -->
+    <div class="history-card">
+      <div class="card-top">
+        <span class="card-id">Sessão #2026-09-18-001</span>
+        <span class="card-date">18/09/2026 às 23:06:12</span>
+      </div>
+      <div class="card-details">
+        <span class="detail-pill">Modelo: best.onnx</span>
+        <span class="detail-pill">Total: 51 objs</span>
+        <span class="detail-pill">909 ms</span>
+      </div>
+      <div class="card-footer">
+        <span class="badge-synced">✓ Enviado ao Servidor</span>
+        <span class="btn-arrow">Ver detalhes ➔</span>
+      </div>
+    </div>
+
+    <!-- History Card 2 -->
+    <div class="history-card">
+      <div class="card-top">
+        <span class="card-id">Sessão #2026-09-18-002</span>
+        <span class="card-date">18/09/2026 às 21:14:05</span>
+      </div>
+      <div class="card-details">
+        <span class="detail-pill">Modelo: best.onnx</span>
+        <span class="detail-pill">Total: 38 objs</span>
+        <span class="detail-pill">850 ms</span>
+      </div>
+      <div class="card-footer">
+        <span class="badge-synced">✓ Enviado ao Servidor</span>
+        <span class="btn-arrow">Ver detalhes ➔</span>
+      </div>
+    </div>
+
+    <!-- History Card 3 -->
+    <div class="history-card">
+      <div class="card-top">
+        <span class="card-id">Sessão #2026-09-17-005</span>
+        <span class="card-date">17/09/2026 às 18:42:30</span>
+      </div>
+      <div class="card-details">
+        <span class="detail-pill">Modelo: yolo_v8.onnx</span>
+        <span class="detail-pill">Total: 12 objs</span>
+        <span class="detail-pill">720 ms</span>
+      </div>
+      <div class="card-footer">
+        <span class="badge-synced">✓ Enviado ao Servidor</span>
+        <span class="btn-arrow">Ver detalhes ➔</span>
+      </div>
+    </div>
+
+    <!-- History Card 4 -->
+    <div class="history-card">
+      <div class="card-top">
+        <span class="card-id">Sessão #2026-09-17-004</span>
+        <span class="card-date">17/09/2026 às 15:10:18</span>
+      </div>
+      <div class="card-details">
+        <span class="detail-pill">Modelo: yolo_v8.onnx</span>
+        <span class="detail-pill">Total: 45 objs</span>
+        <span class="detail-pill">940 ms</span>
+      </div>
+      <div class="card-footer">
+        <span class="badge-synced">✓ Enviado ao Servidor</span>
+        <span class="btn-arrow">Ver detalhes ➔</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Bottom Navigation -->
+  <div class="bottom-nav">
+    <div class="nav-item ">
+      <span class="nav-icon">🎯</span>
+      <span>Detectar</span>
+    </div>
+    <div class="nav-item active">
+      <span class="nav-icon">🕒</span>
+      <span>Histórico</span>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

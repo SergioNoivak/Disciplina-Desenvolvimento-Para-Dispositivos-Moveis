@@ -1,0 +1,478 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usetheme{Madrid}
+\usecolortheme{default}
+\setbeamertemplate{navigation symbols}{}
+\usepackage{eso-pic}
+\usepackage[brazil]{babel}
+\shorthandoff{"}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{booktabs}
+\usepackage{multirow}
+
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning, shapes.geometric, shapes.symbols, fit, calc, backgrounds}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{graphicx}
+
+% --- Cores para listings ---
+\definecolor{meuazul}{RGB}{0, 79, 151}
+\definecolor{meucinza}{RGB}{80, 80, 80}
+\definecolor{meuvermelhoescuro}{RGB}{180, 30, 30}
+\definecolor{meuverde}{RGB}{30, 130, 60}
+\definecolor{kotlinpurple}{RGB}{122, 44, 191}
+\definecolor{kotlinorange}{RGB}{245, 130, 32}
+\definecolor{codebg}{RGB}{245, 245, 250}
+\definecolor{javabg}{RGB}{255, 248, 235}
+\definecolor{codegreen}{RGB}{30, 130, 60}
+\definecolor{codegray}{RGB}{128, 128, 128}
+\definecolor{codeblue}{RGB}{0, 79, 151}
+\setbeamercolor{structure}{fg=meuazul}
+
+% --- Cores do diagrama TikZ ---
+\definecolor{verde}{RGB}{76, 175, 80}
+\definecolor{verdeescuro}{RGB}{46, 125, 50}
+\definecolor{roxo}{RGB}{171, 71, 188}
+\definecolor{ciano}{RGB}{0, 188, 212}
+\definecolor{laranja}{RGB}{255, 152, 0}
+
+% --- Estilos TikZ para o slide de Execução de programas ---
+\tikzset{
+  caixa/.style={
+    draw, rounded corners=4pt, minimum width=1.8cm, minimum height=0.55cm,
+    font=\tiny\bfseries, text centered, inner sep=3pt
+  },
+  caixaC/.style={caixa, fill=verde!80!black, text=white, draw=verde!60!black},
+  caixaOS/.style={caixa, fill=roxo!80, text=white, draw=roxo!60!black},
+  caixaKT/.style={caixa, fill=verde!80!black, text=white, draw=verde!60!black},
+  caixaBC/.style={caixa, fill=ciano!80!black, text=white, draw=ciano!50!black, minimum width=2.4cm},
+  caixaJVM/.style={caixa, fill=laranja!90, text=white, draw=laranja!70!black, minimum width=1.5cm},
+  caixaPlat/.style={caixa, fill=roxo!80, text=white, draw=roxo!60!black, minimum width=1.5cm},
+  seta/.style={-{Stealth[length=4pt]}, thick, gray!70},
+}
+
+% --- Estilo listings: Kotlin ---
+\lstdefinelanguage{Kotlin}{
+  keywords={fun, val, var, if, else, for, while, return, import, class, object, null, true, false, in, is, as, when, by, companion, override, data, sealed, interface, abstract, open, private, public, internal, protected, suspend, coroutine, out, in},
+  keywordstyle=\bfseries\color{kotlinpurple},
+  ndkeywords={String, Int, Boolean, Double, Float, Long, Array, List, ArrayList, Unit},
+  ndkeywordstyle=\color{codeblue},
+  sensitive=true,
+  comment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  commentstyle=\itshape\color{codegray},
+  stringstyle=\color{codegreen},
+  morestring=[b]",
+}
+
+% --- literate: suporte a caracteres acentuados dentro de lstlisting ---
+\newcommand{\litlerate}{%
+  literate=%
+    {á}{{\'{a}}}1 {à}{{\`{a}}}1 {ã}{{\~{a}}}1 {â}{{\^{a}}}1
+    {é}{{\'{e}}}1 {ê}{{\^{e}}}1
+    {í}{{\'{i}}}1
+    {ó}{{\'{o}}}1 {õ}{{\~{o}}}1 {ô}{{\^{o}}}1
+    {ú}{{\'{u}}}1 {ü}{{\"u}}1
+    {ç}{{\c{c}}}1
+    {Á}{{\'{A}}}1 {À}{{\`{A}}}1 {Ã}{{\~{A}}}1
+    {É}{{\'{E}}}1 {Ê}{{\^{E}}}1
+    {Í}{{\'{I}}}1
+    {Ó}{{\'{O}}}1 {Õ}{{\~{O}}}1
+    {Ú}{{\'{U}}}1
+    {Ç}{{\c{C}}}1
+    {ã}{{\~{a}}}1%
+}
+
+% --- Estilo listings: Java personalizado ---
+\lstdefinestyle{JavaStyle}{
+  language=Java,
+  keywordstyle=\bfseries\color{codeblue},
+  commentstyle=\itshape\color{codegray},
+  stringstyle=\color{codegreen},
+  basicstyle=\ttfamily\scriptsize,
+  backgroundcolor=\color{javabg},
+  frame=single,
+  rulecolor=\color{kotlinorange},
+  numbers=none,
+  breaklines=true,
+  showstringspaces=false,
+  tabsize=2,
+  literate=
+    {á}{{\'{a}}}1 {à}{{\`{a}}}1 {ã}{{\~{a}}}1 {â}{{\^{a}}}1
+    {é}{{\'{e}}}1 {ê}{{\^{e}}}1
+    {í}{{\'{i}}}1
+    {ó}{{\'{o}}}1 {õ}{{\~{o}}}1 {ô}{{\^{o}}}1
+    {ú}{{\'{u}}}1
+    {ç}{{\c{c}}}1
+    {Á}{{\'{A}}}1 {É}{{\'{E}}}1 {Í}{{\'{I}}}1 {Ó}{{\'{O}}}1 {Ú}{{\'{U}}}1
+    {Ç}{{\c{C}}}1,
+}
+
+% --- Estilo listings: Kotlin personalizado ---
+\lstdefinestyle{KotlinStyle}{
+  language=Kotlin,
+  basicstyle=\ttfamily\scriptsize,
+  backgroundcolor=\color{codebg},
+  frame=single,
+  rulecolor=\color{kotlinpurple},
+  numbers=none,
+  breaklines=true,
+  showstringspaces=false,
+  tabsize=2,
+  literate=
+    {á}{{\'{a}}}1 {à}{{\`{a}}}1 {ã}{{\~{a}}}1 {â}{{\^{a}}}1
+    {é}{{\'{e}}}1 {ê}{{\^{e}}}1
+    {í}{{\'{i}}}1
+    {ó}{{\'{o}}}1 {õ}{{\~{o}}}1 {ô}{{\^{o}}}1
+    {ú}{{\'{u}}}1
+    {ç}{{\c{c}}}1
+    {Á}{{\'{A}}}1 {É}{{\'{E}}}1 {Í}{{\'{I}}}1 {Ó}{{\'{O}}}1 {Ú}{{\'{U}}}1
+    {Ç}{{\c{C}}}1,
+}
+
+\title[Primeiro Contato com Jetpack Compose]{Primeiro Contato com Jetpack Compose}
+\subtitle{Desenvolvimento de Software para Dispositivos Móveis}
+\author{Prof. Me. Sergio Souza Novak — UniRV}
+\titlegraphic{
+    \includegraphics[width=2cm]{logo.png}
+    \hspace{1cm}
+}
+
+\begin{document}
+
+% Slide de Título
+\frame[plain]{\titlepage}
+
+% -------------
+% Sumário automático
+% -------------
+\begin{frame}{Sumário}
+  \footnotesize
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \tableofcontents[sections={1-4}]
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \tableofcontents[sections={5-8}]
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% -----------------------------------------------
+% Seção: O que é Jetpack Compose?
+% -----------------------------------------------
+\section{O que é Jetpack Compose?}
+
+\begin{frame}{O que é Jetpack Compose?}
+  \begin{itemize}
+    \item É o framework moderno do Android para criação de interfaces de usuário.
+    \item Usa a linguagem Kotlin de forma nativa.
+    \item Substitui o sistema tradicional de Views (XML).
+  \end{itemize}
+
+  \begin{block}{Em resumo}
+    Compose transforma o modo como criamos interfaces Android.
+    \begin{itemize}
+      \item Menos código.
+      \item Mais rápido (visualmente).
+      \item Código mais legível.
+    \end{itemize}
+  \end{block}
+
+  \begin{alertblock}{Não é uma biblioteca, é um sistema de UI Declarativo}
+    \begin{itemize}
+      \item Em vez de dizer 
+      \textbf{como} desenhar cada componente (imperativo),
+      \pause
+      \item Você apenas \textbf{descreve} como a tela deve ser para cada estado
+      \pause
+      \item O Compose cuida de desenhar e atualizar a tela automaticamente.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{UI Declarativa vs UI Imperativa}
+  \begin{exampleblock}{Pensamento moderno}
+    \begin{minipage}{0.48\textwidth}
+      \textbf{UI Imperativa (ViewSystem)}
+      \begin{itemize}
+        \item Você atualiza elementos da tela manualmente.
+        \item Exemplo: \texttt{TextView.setText("Olá")}
+        \item Se a tela tiver 3 estados, você escreve código para cada estado.
+      \end{itemize}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.48\textwidth}
+      \textbf{UI Declarativa (Compose)}
+      \begin{itemize}
+        \item Você descreve a tela para cada estado.
+        \item Exemplo: Função \texttt{MeuTexto(texto="Olá")}
+        \item Se a tela tiver 3 estados, você escreve 3 funções (ou uma lógica).
+      \end{itemize}
+    \end{minipage}
+  \end{exampleblock}
+\end{frame}
+
+% -----------------------------------------------
+% Seção: Construindo nosso App Passo a Passo
+% -----------------------------------------------
+\section{Construindo nosso App Passo a Passo}
+
+\begin{frame}[fragile]{Criando o Projeto MagicBall}
+  \begin{itemize}
+    \item Abra o Android Studio.
+    \item Crie um novo projeto \textbf{Empty Activity} (com Jetpack Compose).
+    \item \textbf{Name:} MagicBall
+    \item \textbf{Package name:} com.sergiosouzanovak.magicball
+    \item \textbf{Save location:} /AndroidStudioProjects/MagicBall
+    \item \textbf{Language:} Kotlin
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{MainActivity e Tema}
+  A porta de entrada do nosso app. Configura o edge-to-edge e o conteúdo com o tema.
+  \begin{lstlisting}[style=KotlinStyle]
+class MainActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
+        setContent {
+            MagicBallTheme {
+                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                    App(modifier = Modifier.padding(innerPadding))
+                }
+            }
+        }
+    }
+}
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{O Modelo de Dados: Message}
+  Vamos criar uma estrutura simples para armazenar a mensagem que será exibida.
+  \begin{lstlisting}[style=KotlinStyle]
+data class Message(
+    val autor:String,
+    val body:String
+)
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{O Componente MessageCard - Parte 1}
+  Vamos construir o cartão da mensagem. Usaremos \texttt{Row} e \texttt{Column}.
+  \begin{lstlisting}[style=KotlinStyle]
+@Composable
+fun MessageCard(message: Message) {
+    Row {
+        Column {
+            Spacer(modifier = Modifier.height(4.dp))
+            Image(
+                painter = painterResource(R.drawable.img),
+                contentDescription = "Contact profile picture",
+                modifier = Modifier.size(40.dp).clip(CircleShape)
+            )
+        }
+        Spacer(modifier = Modifier.width(12.dp))
+        // Textos virão aqui
+    }
+}
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{O Componente MessageCard - Parte 2}
+  Adicionando o autor e o corpo da mensagem.
+  \begin{lstlisting}[style=KotlinStyle]
+@Composable
+fun MessageCard(message: Message) {
+    Row {
+        // ... Imagem (Parte 1)
+        Spacer(modifier = Modifier.width(12.dp))
+        
+        Column {
+            Text(text = message.autor, 
+                 color = MaterialTheme.colorScheme.primary)
+            Spacer(modifier = Modifier.width(4.dp))
+            Text(text = message.body, 
+                 color = MaterialTheme.colorScheme.secondary)
+        }
+    }
+}
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Juntando tudo no componente App}
+  O \texttt{App} é onde colocamos os cartões de mensagem.
+  \begin{lstlisting}[style=KotlinStyle]
+@Composable
+fun App(modifier: Modifier = Modifier) {
+    Column(modifier = modifier) {
+        MessageCard(
+            Message("Lexi", "corpo da mensagem")
+        )
+    }
+}
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Pré-visualização (Preview)}
+  Podemos ver o resultado sem rodar o app inteiro, testando temas claro e escuro.
+  \begin{lstlisting}[style=KotlinStyle]
+@Preview(name = "Light Mode")
+@Preview(
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    showBackground = true,
+    name = "Dark Mode"
+)
+@Composable
+fun GreetingPreview() {
+    MagicBallTheme {
+        App()
+    }
+}
+  \end{lstlisting}
+\end{frame}
+
+
+% -----------------------------------------------
+% Seção: App Corpo Docente UniRV
+% -----------------------------------------------
+\section{App Corpo Docente UniRV}
+
+\begin{frame}[fragile]{Wireframe do App: Corpo Docente}
+  \begin{center}
+    \begin{tikzpicture}[scale=0.7, transform shape,
+      tela/.style={draw, rounded corners=8pt, minimum width=7cm, minimum height=11cm, thick},
+      header/.style={draw, fill=blue!10, minimum width=6.5cm, minimum height=1.5cm, align=center},
+      grid/.style={draw, dashed, minimum width=6.5cm, minimum height=8.5cm, align=center},
+      card/.style={draw, fill=gray!10, minimum width=3cm, minimum height=4cm, align=center},
+      foto/.style={draw, fill=white, minimum width=2.5cm, minimum height=1.5cm, align=center}
+      ]
+      
+      % Tela do App
+      \node[tela] (app) {};
+      
+      % Header
+      \node[header, below=0.2cm of app.north] (title) {PageTitle\\Corpo Docente de Engenharia Civil};
+      
+      % Grid 
+      \node[grid, below=0.2cm of title] (list) {};
+      
+      % Cards no Grid
+      \node[card, anchor=north west, xshift=0.15cm, yshift=-0.15cm] (c1) at (list.north west) {};
+      \node[foto, anchor=north, yshift=-0.1cm] at (c1.north) {Foto};
+      \node[anchor=north, yshift=-1.7cm, font=\scriptsize] at (c1.north) {Nome\\Titulação\\Lattes\\Email};
+
+      \node[card, anchor=north east, xshift=-0.15cm, yshift=-0.15cm] (c2) at (list.north east) {};
+      \node[foto, anchor=north, yshift=-0.1cm] at (c2.north) {Foto};
+      \node[anchor=north, yshift=-1.7cm, font=\scriptsize] at (c2.north) {Nome\\Titulação\\Lattes\\Email};
+      
+      \node[card, anchor=north west, xshift=0.15cm, yshift=-4.3cm] (c3) at (list.north west) {};
+      \node[foto, anchor=north, yshift=-0.1cm] at (c3.north) {Foto};
+      \node[anchor=north, yshift=-1.7cm, font=\scriptsize] at (c3.north) {...};
+
+      \node[card, anchor=north east, xshift=-0.15cm, yshift=-4.3cm] (c4) at (list.north east) {};
+      \node[foto, anchor=north, yshift=-0.1cm] at (c4.north) {Foto};
+      \node[anchor=north, yshift=-1.7cm, font=\scriptsize] at (c4.north) {...};
+      
+    \end{tikzpicture}
+  \end{center}
+\end{frame}
+
+\begin{frame}[fragile]{Carregamento de Imagens e Modelo de Dados}
+  A função auxiliar \texttt{carregarImagemAsset} e a data class \texttt{Docente}.
+  \begin{lstlisting}[style=KotlinStyle]
+data class Docente(
+    val nome: String, val titulacao: String,
+    val lattes: String, val email: String, val foto: String
+)
+
+@Composable
+fun carregarImagemAsset(nomeArquivo: String): ImageBitmap? {
+    val context = LocalContext.current
+    return try {
+        context.assets.open(nomeArquivo).use { inputStream ->
+            BitmapFactory.decodeStream(inputStream)?.asImageBitmap()
+        }
+    } catch (e: Exception) { null }
+}
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{O Componente PesquisadorCard}
+  Exibe os dados de um docente individualmente.
+  \begin{lstlisting}[style=KotlinStyle, basicstyle=\ttfamily\tiny]
+@Composable
+fun PesquisadorCard(nome: String, titulacao: String, lattes: String, email: String, foto: String, modifier: Modifier = Modifier) {
+    val imagem = carregarImagemAsset(foto)
+    Card(modifier = modifier.fillMaxWidth().padding(16.dp), colors = CardDefaults.cardColors(containerColor = Color(0xFFF1F4F5))) {
+        Column(modifier = Modifier.width(1200.dp).height(300.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+            imagem?.let { Image(bitmap = it, contentDescription = "Foto", modifier = Modifier.fillMaxWidth().height(120.dp), contentScale = ContentScale.Crop) }
+            Text(text = nome, fontSize = 12.sp, fontWeight = FontWeight.Bold, color = Color(0xFF222222))
+            Text(text = titulacao, fontSize = 12.sp, color = Color(0xFF666666))
+            Text(text = lattes, fontSize = 12.sp, color = Color(0xFF007AFF))
+            Text(text = email, fontSize = 12.sp, color = Color(0xFF444444))
+        }
+    }
+}
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Listando os Docentes com Grid}
+  \texttt{LazyVerticalGrid} organiza os cartões em colunas.
+  \begin{lstlisting}[style=KotlinStyle, basicstyle=\ttfamily\tiny]
+@Composable
+fun ListaPesquisadores(){
+    val docentes = listOf(/* instâncias de Docente omitidas por espaço */)
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(2),
+        modifier = Modifier.fillMaxSize(),
+        contentPadding = PaddingValues(16.dp),
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        items(docentes) { docente ->
+            PesquisadorCard(
+                nome = docente.nome,
+                titulacao = docente.titulacao,
+                lattes = docente.lattes,
+                email = docente.email,
+                foto = docente.foto
+            )
+        }
+    }
+}
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Cabeçalho e Componente Principal}
+  \begin{lstlisting}[style=KotlinStyle, basicstyle=\ttfamily\tiny]
+@Composable
+fun PageTitle(){
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Row{
+            Text(text = "Corpo Docente do curso de")
+            Text(text = " Engenharia Civil", color = Color(0xFF064F9F))
+        }
+        Row{
+            Column {
+                repeat(2){
+                    HorizontalDivider(modifier = Modifier.width(125.dp), thickness = 2.dp, color = Color.Gray)
+                    Spacer(modifier = Modifier.height(4.dp))
+                }
+            }
+        }
+        Row{ ListaPesquisadores() }
+    }
+}
+
+@Composable
+fun App(modifier: Modifier) {
+    Column{ PageTitle() }
+}
+  \end{lstlisting}
+\end{frame}
+
+\end{document}

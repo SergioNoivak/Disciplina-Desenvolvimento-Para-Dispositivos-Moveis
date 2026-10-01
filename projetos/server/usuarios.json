@@ -1,0 +1,14 @@
+[
+    {
+        "id": 1,
+        "nome": "Sergio ",
+        "email": "sergio.novak@unirv.edu.br",
+        "idade": "18"
+    },
+    {
+        "id": 2,
+        "nome": "Alessandra ",
+        "email": "Alexandra@gmail.com",
+        "idade": "21"
+    }
+]

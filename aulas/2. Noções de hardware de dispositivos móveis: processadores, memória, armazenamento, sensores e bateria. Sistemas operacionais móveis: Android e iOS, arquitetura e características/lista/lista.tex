@@ -1,0 +1,712 @@
+\documentclass[12pt]{article}
+
+% Idioma e codificação
+\usepackage[brazil]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+% Matemática e listas
+\usepackage{amsmath, amssymb}
+\usepackage{enumitem}
+
+% Layout e cores
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{xcolor}
+
+% Diagramas e Portas Lógicas
+\usepackage{tikz}
+\usetikzlibrary{shapes.gates.logic.US, positioning, arrows.meta, calc, fit, shadows.blur}
+
+% Cores institucionais
+\definecolor{maincolor}{RGB}{0, 79, 151}
+\definecolor{meuazul}{RGB}{0, 79, 151}
+
+% Cabeçalho e rodapé
+\usepackage{fancyhdr}
+
+% Blocos
+\usepackage[most]{tcolorbox}
+\newtcolorbox{block}[1]{%
+  colback=blue!5,
+  colframe=maincolor,
+  coltitle=white,
+  title=#1,
+  fonttitle=\bfseries,
+  boxrule=1.5pt,
+  arc=3mm,
+  left=6pt,
+  right=6pt,
+  top=6pt,
+  bottom=6pt
+}
+
+\newtcolorbox{resposta}[1]{%
+  colback=white,
+  colframe=meuazul!30,
+  arc=1mm,
+  height=#1,
+  width=\textwidth,
+  boxrule=0.8pt
+}
+
+% Margens
+\geometry{margin=2.5cm}
+
+% Fancyhdr
+\pagestyle{fancy}
+\fancyhf{}
+
+\renewcommand{\headrulewidth}{2pt}
+\renewcommand{\footrulewidth}{2pt}
+
+\renewcommand{\headrule}{\hbox to\headwidth{%
+  \color{meuazul}\leaders\hrule height \headrulewidth\hfill}}
+
+\renewcommand{\footrule}{\hbox to\headwidth{%
+  \color{meuazul}\leaders\hrule height \footrulewidth\hfill}}
+
+\setlength{\headheight}{52pt}
+\addtolength{\topmargin}{-20pt}
+
+\fancyhead[L]{%
+  \includegraphics[height=1.2cm]{./../logo.png}
+}
+
+\fancyhead[R]{%
+  \raggedleft
+  \textcolor{meuazul}{%
+    \small
+    \textbf{Lista de Exercícios — Desenvolvimento de Software para Dispositivos Móveis}\\
+    Me.~Sergio Souza Novak\\
+    \textit{Engenharia da Qualidade e Confiabilidade}
+  }
+}
+
+\fancyfoot[C]{\textcolor{meuazul}{\thepage}}
+
+% =========================
+\begin{document}
+% =========================
+
+\vspace*{0.2cm}
+
+\begin{center}
+  {\Large \textbf{Noções de hardware de dispositivos móveis: processadores, memória, armazenamento, sensores e bateria. Sistemas operacionais móveis: Android e iOS, arquitetura e características}}\\[0.2cm]
+  \textit{Instruções: Justifique suas respostas de forma clara e objetiva.
+  Para questões discursivas, escreva na caixa de resposta abaixo de cada enunciado.}
+\end{center}
+
+\vspace{0.4cm}
+
+\begin{center}
+  \textit{``Boa atividade! Att. Me. Prof. Sergio Souza Novak.''}
+\end{center}
+
+% =========================
+
+\textbf{Questão 1 — Sensores e Detecção de Metais (Múltipla Escolha)}
+Uma equipe de desenvolvimento deseja criar um aplicativo para smartphones capaz de auxiliar
+na detecção de metais utilizando os sensores já disponíveis no dispositivo móvel.
+Durante o projeto, foram identificados os seguintes sensores:
+
+\begin{itemize}[leftmargin=1.5em]
+  \item Um sensor que mede a intensidade do campo magnético ao redor do celular.
+  \item Um sensor que detecta movimentos e acelerações do aparelho.
+  \item Um sensor que identifica a orientação e a rotação do dispositivo.
+\end{itemize}
+
+\vspace{0.4cm}
+
+% ── Wireframes das telas do aplicativo ──────────────────────────────────────
+\begin{center}
+\begin{tikzpicture}[
+  font=\sffamily\scriptsize,
+  every node/.style={inner sep=0pt},
+  phone/.style={draw=black!70, rounded corners=4mm, fill=white,
+                line width=1.2pt, minimum width=3.8cm, minimum height=7cm},
+  topbar/.style={draw=black!60, fill=black!10, line width=0.8pt,
+                 minimum width=3.4cm, minimum height=0.55cm, rounded corners=1mm},
+  widget/.style={draw=black!50, fill=white, line width=0.6pt,
+                 minimum width=3.2cm, rounded corners=1mm},
+  btn/.style={draw=black!70, fill=black!15, line width=0.8pt,
+              minimum width=2.6cm, minimum height=0.55cm, rounded corners=2mm},
+  sensorlbl/.style={draw=black!40, fill=black!5, line width=0.5pt,
+                    minimum width=3.2cm, minimum height=0.45cm, rounded corners=1mm},
+]
+
+%% ─────── TELA 1: Escaneamento ───────
+\node[phone] (phone1) at (0,0) {};
+
+% câmera (notch)
+\draw[fill=black!25, draw=black!50, line width=0.5pt]
+  (0, 3.3) circle (0.12cm);
+
+% barra de status
+\node[topbar, anchor=north] (bar1) at (0, 3.1)
+  {\textbf{MetalScan} \hfill 09:41};
+
+% ícone de campo magnético (ondas)
+\begin{scope}[shift={(0, 1.8)}]
+  \draw[line width=1.2pt] (0,0) circle (0.38cm);
+  \draw[line width=0.7pt] (0,0) circle (0.62cm);
+  \draw[line width=0.4pt, dashed] (0,0) circle (0.86cm);
+  \node[font=\sffamily\tiny\bfseries] at (0,-1.1) {Campo Magnético};
+\end{scope}
+
+% barra de intensidade
+\node[widget, minimum height=0.38cm, anchor=north] (bar_bg) at (0, 0.55)
+  {};
+\node[draw=none, fill=black!30, minimum width=1.1cm, minimum height=0.28cm,
+      anchor=west, rounded corners=0.5mm] at ([xshift=0.05cm]bar_bg.west) {};
+\node[font=\sffamily\tiny, anchor=east] at ([xshift=-0.08cm]bar_bg.east)
+  {intensidade};
+
+% leituras dos sensores
+\node[sensorlbl, anchor=north] (s1) at (0, 0.1)
+  {\textbf{Magnetômetro:} \ 48 µT};
+\node[sensorlbl, anchor=north] (s2b) at (0, -0.45)
+  {\textbf{Acelerômetro:} \ 0.3 m/s²};
+\node[sensorlbl, anchor=north] (s3) at (0, -0.98)
+  {\textbf{Giroscópio:} \ 2.1 °/s};
+
+% botão iniciar
+\node[btn, anchor=north] at (0, -1.6)
+  {\textbf{\ Iniciar Varredura}};
+
+% legenda
+\node[font=\sffamily\tiny\itshape, text=black!60, anchor=north] at (0,-3.0)
+  {Tela 1 — Escaneamento};
+
+%% ─────── TELA 2: Metal Detectado ───────
+\node[phone] (phone2) at (5.5,0) {};
+
+% câmera
+\draw[fill=black!25, draw=black!50, line width=0.5pt]
+  (5.5, 3.3) circle (0.12cm);
+
+% barra de status
+\node[topbar, anchor=north] (bar2) at (5.5, 3.1)
+  {\textbf{MetalScan} \hfill 09:42};
+
+% ícone de alerta
+\begin{scope}[shift={(5.5, 1.75)}]
+  \draw[line width=1.5pt, fill=black!8]
+    (0, 0.55) -- (-0.55,-0.45) -- (0.55,-0.45) -- cycle;
+  \node[font=\bfseries\small] at (0, 0.04) {!};
+  \node[font=\sffamily\tiny\bfseries] at (0,-0.85)
+    {METAL DETECTADO};
+\end{scope}
+
+% barra de intensidade alta
+\node[widget, minimum height=0.38cm, anchor=north] (bar_bg2) at (5.5, 0.55) {};
+\node[draw=none, fill=black!60, minimum width=2.8cm, minimum height=0.28cm,
+      anchor=west, rounded corners=0.5mm]
+  at ([xshift=0.05cm]bar_bg2.west) {};
+\node[font=\sffamily\tiny, anchor=east, text=white]
+  at ([xshift=-0.12cm]bar_bg2.east) {alta};
+
+% leituras — estado de alerta
+\node[sensorlbl, anchor=north] at (5.5, 0.1)
+  {\textbf{Magnetômetro:} \ 312 µT};
+\node[sensorlbl, anchor=north] at (5.5, -0.45)
+  {\textbf{Acelerômetro:} \ 1.9 m/s²};
+\node[sensorlbl, anchor=north] at (5.5, -0.98)
+  {\textbf{Giroscópio:} \ 8.4 °/s};
+
+% botão nova varredura
+\node[btn, anchor=north] at (5.5, -1.6)
+  {\textbf{\ Nova Varredura}};
+
+% legenda
+\node[font=\sffamily\tiny\itshape, text=black!60, anchor=north] at (5.5,-3.0)
+  {Tela 2 — Metal Detectado};
+
+%% seta de transição
+\draw[-{Stealth[length=6pt]}, line width=1pt, black!50]
+  ([xshift=0.25cm]phone1.east) -- ([xshift=-0.25cm]phone2.west)
+  node[midway, above, font=\sffamily\tiny, text=black!50] {detecção};
+
+\end{tikzpicture}
+\end{center}
+% ────────────────────────────────────────────────────────────────────────────
+
+\vspace{0.3cm}
+Considerando o funcionamento desse aplicativo para detecção de metais, assinale a alternativa que indica corretamente qual é o principal sensor responsável por medir as variações e identificar a presença do metal ao redor do aparelho:
+
+\vspace{0.4cm}
+
+\begin{enumerate}[label=\alph*)]
+    \item Acelerômetro
+    \item Magnetômetro
+    \item Giroscópio
+    \item Sensor de Proximidade
+    \item Barômetro
+\end{enumerate}
+
+% =========================
+
+\vspace{0.8cm}
+\noindent\rule{\textwidth}{0.8pt}
+\vspace{0.3cm}
+
+% ── Questão 2 ───────────────────────────────────────────────────────────────
+\noindent\textbf{Questão 2 — Nível de Bolha Digital (Discursiva)}
+
+\vspace{0.3cm}
+\noindent
+Uma empresa de marcenaria deseja desenvolver um aplicativo para smartphones que auxilie os
+profissionais na instalação de prateleiras, armários e bancadas. O aplicativo deverá informar
+se uma superfície está perfeitamente nivelada, funcionando de maneira semelhante a um
+\textit{nível de bolha} utilizado na construção civil.
+
+\vspace{0.3cm}
+\noindent
+Considerando os sensores disponíveis em um smartphone, \textbf{indique qual é o principal
+sensor que deve ser utilizado} para essa funcionalidade e explique por que ele é o mais
+adequado para a aplicação proposta. Descreva também como os dados fornecidos por esse sensor
+podem ajudar o marceneiro durante o trabalho.
+
+\vspace{0.5cm}
+
+% ── Wireframes: Nível de Bolha ───────────────────────────────────────────────
+\begin{center}
+\begin{tikzpicture}[
+  font=\sffamily\scriptsize,
+  every node/.style={inner sep=0pt},
+  phone/.style={draw=black!70, rounded corners=4mm, fill=white,
+                line width=1.2pt, minimum width=3.8cm, minimum height=7cm},
+  topbar/.style={draw=black!60, fill=black!10, line width=0.8pt,
+                 minimum width=3.4cm, minimum height=0.55cm, rounded corners=1mm},
+  btn/.style={draw=black!70, fill=black!15, line width=0.8pt,
+              minimum width=2.8cm, minimum height=0.55cm, rounded corners=2mm},
+  infolbl/.style={draw=black!40, fill=black!5, line width=0.5pt,
+                  minimum width=3.2cm, minimum height=0.45cm, rounded corners=1mm},
+]
+
+%% ─────── TELA A: Superfície Nivelada ───────
+\node[phone] (phoneA) at (0,0) {};
+
+\draw[fill=black!25, draw=black!50, line width=0.5pt] (0,3.3) circle (0.12cm);
+
+\node[topbar, anchor=north] at (0, 3.1) {\textbf{NívelPro} \hfill 14:22};
+
+% Círculo do nível de bolha — nivelado
+\begin{scope}[shift={(0, 1.5)}]
+  % área do visor
+  \draw[draw=black!60, fill=black!5, line width=1pt] (0,0) circle (1.0cm);
+  % linhas de referência
+  \draw[black!30, line width=0.5pt] (-1.0,0) -- (1.0,0);
+  \draw[black!30, line width=0.5pt] (0,-1.0) -- (0,1.0);
+  \draw[black!20, dashed, line width=0.4pt] (0,0) circle (0.25cm);
+  % bolha no centro (nivelado)
+  \draw[draw=black!70, fill=black!20, line width=0.8pt] (0,0) circle (0.22cm);
+  % rótulo
+  \node[font=\sffamily\tiny\bfseries] at (0,-1.3) {NIVELADO};
+\end{scope}
+
+% Leitura do acelerômetro
+\node[infolbl, anchor=north] at (0, 0.1)
+  {\textbf{Acel. X:} \ 0.01 m/s²};
+\node[infolbl, anchor=north] at (0, -0.43)
+  {\textbf{Acel. Y:} \ 0.00 m/s²};
+\node[infolbl, anchor=north] at (0, -0.95)
+  {\textbf{Acel. Z:} \ 9.81 m/s²};
+
+\node[btn, anchor=north] at (0, -1.6) {\textbf{Calibrar}};
+
+\node[font=\sffamily\tiny\itshape, text=black!60, anchor=north] at (0,-3.0)
+  {Tela A — Superfície Nivelada};
+
+%% ─────── TELA B: Superfície Inclinada ───────
+\node[phone] (phoneB) at (5.5,0) {};
+
+\draw[fill=black!25, draw=black!50, line width=0.5pt] (5.5,3.3) circle (0.12cm);
+
+\node[topbar, anchor=north] at (5.5, 3.1) {\textbf{NívelPro} \hfill 14:23};
+
+% Círculo do nível de bolha — inclinado
+\begin{scope}[shift={(5.5, 1.5)}]
+  \draw[draw=black!60, fill=black!5, line width=1pt] (0,0) circle (1.0cm);
+  \draw[black!30, line width=0.5pt] (-1.0,0) -- (1.0,0);
+  \draw[black!30, line width=0.5pt] (0,-1.0) -- (0,1.0);
+  \draw[black!20, dashed, line width=0.4pt] (0,0) circle (0.25cm);
+  % bolha deslocada (inclinado)
+  \draw[draw=black!70, fill=black!40, line width=0.8pt] (0.52,0.38) circle (0.22cm);
+  % seta indicando correção
+  \draw[-{Stealth[length=4pt]}, black!60, line width=0.6pt]
+    (0.52,0.38) -- (0.08,0.06);
+  \node[font=\sffamily\tiny\bfseries] at (0,-1.3) {INCLINADO};
+\end{scope}
+
+% Leitura do acelerômetro — inclinado
+\node[infolbl, anchor=north] at (5.5, 0.1)
+  {\textbf{Acel. X:} \ 2.43 m/s²};
+\node[infolbl, anchor=north] at (5.5, -0.43)
+  {\textbf{Acel. Y:} \ 1.87 m/s²};
+\node[infolbl, anchor=north] at (5.5, -0.95)
+  {\textbf{Acel. Z:} \ 9.45 m/s²};
+
+\node[btn, anchor=north] at (5.5, -1.6) {\textbf{Ajustar Inclinação}};
+
+\node[font=\sffamily\tiny\itshape, text=black!60, anchor=north] at (5.5,-3.0)
+  {Tela B — Superfície Inclinada};
+
+%% seta de transição
+\draw[-{Stealth[length=6pt]}, line width=1pt, black!50]
+  ([xshift=0.25cm]phoneA.east) -- ([xshift=-0.25cm]phoneB.west)
+  node[midway, above, font=\sffamily\tiny, text=black!50] {inclinar};
+
+\end{tikzpicture}
+\end{center}
+% ────────────────────────────────────────────────────────────────────────────
+
+\vspace{0.4cm}
+
+\noindent\textit{Resposta:}
+
+\begin{resposta}{12cm}
+\end{resposta}
+
+% =========================
+
+\vspace{0.8cm}
+\noindent\rule{\textwidth}{0.8pt}
+\vspace{0.3cm}
+
+% ── Questão 3 ───────────────────────────────────────────────────────────────
+\noindent\textbf{Questão 3 — Identificação de Pragas com IA e Geolocalização (Discursiva)}
+
+\vspace{0.3cm}
+\noindent
+Uma empresa do setor agrícola pretende desenvolver um aplicativo para smartphones capaz de
+identificar pragas em plantações por meio de Inteligência Artificial e Visão Computacional.
+O usuário deverá apontar a câmera do celular para a planta, e o aplicativo analisará a
+imagem para detectar possíveis pragas e apresentar recomendações de manejo. Além disso, o
+sistema deverá registrar a localização geográfica de cada detecção para construir um
+\textbf{mapa de calor} da infestação de pragas em toda a fazenda, auxiliando na tomada de
+decisões sobre o controle da lavoura.
+
+\vspace{0.3cm}
+\noindent
+Considerando os recursos de hardware disponíveis em um smartphone, \textbf{indique quais são
+os principais componentes necessários} para a captura dos dados utilizados pelo sistema.
+Explique a função de cada componente e descreva como eles contribuem tanto para a
+\textbf{identificação das pragas} quanto para a \textbf{geração do mapa de calor} da
+infestação na propriedade rural.
+
+\vspace{0.5cm}
+
+% ── Wireframes: App de Pragas ─────────────────────────────────────────────────
+\begin{center}
+\begin{tikzpicture}[
+  font=\sffamily\scriptsize,
+  every node/.style={inner sep=0pt},
+  phone/.style={draw=black!70, rounded corners=4mm, fill=white,
+                line width=1.2pt, minimum width=3.6cm, minimum height=6.8cm},
+  topbar/.style={draw=black!60, fill=black!10, line width=0.8pt,
+                 minimum width=3.2cm, minimum height=0.52cm, rounded corners=1mm},
+  btn/.style={draw=black!70, fill=black!15, line width=0.8pt,
+              minimum width=2.8cm, minimum height=0.52cm, rounded corners=2mm},
+  lbl/.style={draw=black!40, fill=black!5, line width=0.5pt,
+              minimum width=3.2cm, minimum height=0.42cm, rounded corners=1mm},
+  chip/.style={draw=black!50, fill=black!8, line width=0.6pt,
+               minimum width=1.4cm, minimum height=0.42cm, rounded corners=1mm},
+]
+
+%% ─── TELA 1: Captura ───
+\node[phone] (p1) at (0,0) {};
+\draw[fill=black!25, draw=black!50, line width=0.4pt] (0,3.2) circle (0.11cm);
+\node[topbar, anchor=north] at (0,3.05) {\textbf{AgroScan} \hfill};
+
+% visor da câmera
+\draw[draw=black!50, fill=black!8, line width=0.8pt, rounded corners=1mm]
+  (-1.5, 1.9) rectangle (1.5, 0.3);
+% mira central
+\draw[black!40, line width=0.5pt] (-0.25,1.1) -- (0.25,1.1);
+\draw[black!40, line width=0.5pt] (0, 0.85) -- (0, 1.35);
+\draw[black!30, dashed, line width=0.4pt]
+  (-0.6,1.4) -- (-0.6,1.7) -- (-0.3,1.7);
+\draw[black!30, dashed, line width=0.4pt]
+  (0.6,1.4) -- (0.6,1.7) -- (0.3,1.7);
+\draw[black!30, dashed, line width=0.4pt]
+  (-0.6,0.8) -- (-0.6,0.5) -- (-0.3,0.5);
+\draw[black!30, dashed, line width=0.4pt]
+  (0.6,0.8) -- (0.6,0.5) -- (0.3,0.5);
+\node[font=\sffamily\tiny, text=black!50] at (0,1.1) {aponte para a planta};
+
+% GPS chip
+\node[chip] (gps1) at (-0.82, -0.05) {\tiny GPS};
+\node[chip] at (0.82, -0.05) {\tiny Câmera};
+
+\node[lbl, anchor=north] at (0,-0.35)
+  {\textbf{Localização:} \ -18.92°, -49.71°};
+
+\node[btn, anchor=north] at (0,-0.88) {\textbf{\ Capturar e Analisar}};
+
+\node[font=\sffamily\tiny, text=black!60, anchor=north] at (0,-2.15)
+  {Tela 1 — Captura};
+
+%% ─── TELA 2: Resultado da IA ───
+\node[phone] (p2) at (5.3,0) {};
+\draw[fill=black!25, draw=black!50, line width=0.4pt] (5.3,3.2) circle (0.11cm);
+\node[topbar, anchor=north] at (5.3,3.05) {\textbf{AgroScan} \hfill};
+
+% miniatura da imagem capturada
+\draw[draw=black!50, fill=black!12, line width=0.7pt, rounded corners=1mm]
+  (3.85,2.55) rectangle (6.75,1.35);
+\node[font=\sffamily\tiny, text=black!50] at (5.3,1.95) {imagem capturada};
+% bounding box da praga
+\draw[draw=black!70, line width=0.8pt, dashed]
+  (4.5,2.38) rectangle (5.45,1.52);
+\node[font=\sffamily\tiny\bfseries] at (4.97,2.46) {praga};
+
+% resultado
+\node[lbl, anchor=north] at (5.3,1.45)
+  {\textbf{Praga:} \ Lagarta-do-cartucho};
+\node[lbl, anchor=north] at (5.3,0.95)
+  {\textbf{Confiança:} \ 94\%};
+\node[lbl, anchor=north] at (5.3,0.45)
+  {\textbf{GPS:} \ -18.92°, -49.71°};
+
+% recomendação
+\draw[draw=black!40, fill=black!3, line width=0.5pt, rounded corners=1mm]
+  (3.8,-0.08) rectangle (6.8,-0.75);
+\node[font=\sffamily\tiny, text width=2.7cm, align=center] at (5.3,-0.42)
+  {Recomendação: aplicar inseticida Bt em 48h};
+
+\node[btn, anchor=north] at (5.3,-0.9) {\textbf{Ver no Mapa}};
+
+\node[font=\sffamily\tiny, text=black!60, anchor=north] at (5.3,-2.15)
+  {Tela 2 — Resultado IA};
+
+%% ─── TELA 3: Mapa de Calor ───
+\node[phone] (p3) at (10.6,0) {};
+\draw[fill=black!25, draw=black!50, line width=0.4pt] (10.6,3.2) circle (0.11cm);
+\node[topbar, anchor=north] at (10.6,3.05) {\textbf{AgroScan — Mapa} \hfill };
+
+% grade do mapa (talhão)
+\draw[draw=black!40, fill=black!5, line width=0.6pt, rounded corners=1mm]
+  (9.2,2.55) rectangle (12.0,0.2);
+% células de calor (intensidade simulada com fill)
+\fill[black!50, rounded corners=0.5mm] (10.3,2.1) rectangle (11.1,1.5);
+\fill[black!30, rounded corners=0.5mm] (9.5,1.7) rectangle (10.1,1.2);
+\fill[black!20, rounded corners=0.5mm] (11.1,1.3) rectangle (11.7,0.9);
+\fill[black!10, rounded corners=0.5mm] (9.6,0.9) rectangle (10.2,0.55);
+\fill[black!10, rounded corners=0.5mm] (11.2,2.1) rectangle (11.7,1.7);
+% pontos de detecção
+\fill[black!80] (10.7,1.8) circle (0.09cm);
+\fill[black!80] (9.8,1.45) circle (0.07cm);
+\fill[black!80] (11.4,1.1) circle (0.07cm);
+\fill[black!60] (9.9,0.72) circle (0.06cm);
+% legenda do mapa
+\node[font=\sffamily\tiny, text=black!50] at (10.6,0.1)
+  {$\blacksquare$ alta \quad $\blacksquare$ média \quad $\square$ baixa};
+
+% legenda inferior
+\node[lbl, anchor=north] at (10.6,-0.3)
+  {\textbf{Detecções:} \ 4 \ pontos registrados};
+\node[btn, anchor=north] at (10.6,-0.82) {\textbf{Exportar Relatório}};
+
+\node[font=\sffamily\tiny, text=black!60, anchor=north] at (10.6,-2.15)
+  {Tela 3 — Mapa de Calor};
+
+%% setas de transição
+\draw[-{Stealth[length=5pt]}, line width=0.9pt, black!45]
+  ([xshift=0.2cm]p1.east) -- ([xshift=-0.2cm]p2.west)
+  node[midway, above, font=\sffamily\tiny, text=black!45] {analisar};
+\draw[-{Stealth[length=5pt]}, line width=0.9pt, black!45]
+  ([xshift=0.2cm]p2.east) -- ([xshift=-0.2cm]p3.west)
+  node[midway, above, font=\sffamily\tiny, text=black!45] {mapear};
+
+\end{tikzpicture}
+\end{center}
+% ────────────────────────────────────────────────────────────────────────────
+
+\vspace{0.4cm}
+
+\noindent\textit{Resposta:}
+
+\begin{resposta}{12cm}
+\end{resposta}
+
+% =========================
+
+\vspace{0.8cm}
+\noindent\rule{\textwidth}{0.8pt}
+\vspace{0.3cm}
+
+% ── Questão 4 ───────────────────────────────────────────────────────────────
+\noindent\textbf{Questão 4 — Aplicativo de Emergência: Palavra-Chave, Agitação e Geolocalização (Discursiva)}
+
+\vspace{0.3cm}
+\noindent
+Uma organização de proteção às mulheres deseja desenvolver um aplicativo para smartphones
+que permita solicitar ajuda em situações de emergência de forma \textbf{rápida e discreta}.
+Para evitar acionamentos indevidos, o aplicativo só deverá enviar um alerta à polícia quando
+a usuária pronunciar uma \textbf{palavra-chave} previamente cadastrada (por exemplo,
+\textit{``estetoscópio''}) e, em seguida, \textbf{chacoalhar o celular}. Após a confirmação,
+o sistema deverá enviar a \textbf{localização da vítima} para as autoridades e para contatos
+de confiança.
+
+\vspace{0.3cm}
+\noindent
+Considerando os recursos de hardware disponíveis em um smartphone,
+\textbf{identifique os principais componentes e sensores} necessários para implementar essa
+solução. Explique a função de cada elemento de hardware e descreva como eles atuam no
+\textbf{reconhecimento da palavra-chave}, na \textbf{detecção do movimento de chacoalhar} o
+aparelho e no \textbf{envio da localização} da usuária. Além disso, justifique por que cada
+componente é importante para garantir o funcionamento adequado do aplicativo em uma situação
+de emergência.
+
+\vspace{0.5cm}
+
+% ── Wireframes: App de Emergência ────────────────────────────────────────────
+\begin{center}
+\begin{tikzpicture}[
+  font=\sffamily\scriptsize,
+  every node/.style={inner sep=0pt},
+  phone/.style={draw=black!70, rounded corners=4mm, fill=white,
+                line width=1.2pt, minimum width=3.6cm, minimum height=6.8cm},
+  topbar/.style={draw=black!60, fill=black!10, line width=0.8pt,
+                 minimum width=3.2cm, minimum height=0.52cm, rounded corners=1mm},
+  btn/.style={draw=black!70, fill=black!15, line width=0.8pt,
+              minimum width=2.8cm, minimum height=0.52cm, rounded corners=2mm},
+  btnalert/.style={draw=black!80, fill=black!35, line width=1pt,
+                   minimum width=2.8cm, minimum height=0.52cm, rounded corners=2mm},
+  lbl/.style={draw=black!40, fill=black!5, line width=0.5pt,
+              minimum width=3.2cm, minimum height=0.42cm, rounded corners=1mm},
+  chip/.style={draw=black!50, fill=black!8, line width=0.5pt,
+               minimum width=1.4cm, minimum height=0.40cm, rounded corners=1mm},
+]
+
+%% ─── TELA 1: Modo Espera (Discreta) ───
+\node[phone] (p1) at (0,0) {};
+\draw[fill=black!25, draw=black!50, line width=0.4pt] (0,3.2) circle (0.11cm);
+\node[topbar, anchor=north] at (0,3.05) {\textbf{SafeWord} \hfill $\blacksquare$};
+
+% ícone de microfone (escuta ativa)
+\begin{scope}[shift={(0, 1.7)}]
+  \draw[draw=black!60, fill=black!8, line width=0.8pt, rounded corners=1mm]
+    (-0.22,-0.42) rectangle (0.22,0.42);
+  \draw[draw=black!60, line width=0.8pt]
+    (-0.38,0.1) arc[start angle=180, end angle=0, radius=0.38cm];
+  \draw[draw=black!60, line width=0.8pt] (0,0.48) -- (0,0.72);
+  \draw[draw=black!60, line width=0.8pt] (-0.22,0.72) -- (0.22,0.72);
+  % ondas de áudio
+  \draw[black!30, line width=0.4pt]
+    (-0.65, 0.0) arc[start angle=150, end angle=210, radius=0.55cm];
+  \draw[black!30, line width=0.4pt]
+    (0.65, 0.0) arc[start angle=30, end angle=-30, radius=0.55cm];
+  \node[font=\sffamily\tiny, text=black!50] at (0,-0.7) {aguardando palavra-chave\ldots};
+\end{scope}
+
+% chips de hardware ativos
+\node[chip] at (-0.82,0.38) {\tiny Microfone};
+\node[chip] at (0.82,0.38)  {\tiny CPU};
+
+\node[lbl, anchor=north] at (0,0.08)
+  {\textbf{Status:} \ escutando\ldots};
+\node[lbl, anchor=north] at (0,-0.42)
+  {\textbf{Palavra-chave:} \ cadastrada};
+\node[lbl, anchor=north] at (0,-0.94)
+  {\textbf{GPS:} \ ativo em 2.º plano};
+
+\node[btn, anchor=north] at (0,-1.55) {\textbf{Configurações}};
+
+\node[font=\sffamily\tiny\itshape, text=black!60, anchor=north] at (0,-2.15)
+  {Tela 1 — Modo Espera Discreta};
+
+%% ─── TELA 2: Palavra-Chave Detectada → Agitar ───
+\node[phone] (p2) at (5.3,0) {};
+\draw[fill=black!25, draw=black!50, line width=0.4pt] (5.3,3.2) circle (0.11cm);
+\node[topbar, anchor=north] at (5.3,3.05) {\textbf{SafeWord} \hfill $\blacksquare$};
+
+% ícone de agitação (setas curvas)
+\begin{scope}[shift={(5.3,1.65)}]
+  % celular inclinado (retângulo rotacionado)
+  \begin{scope}[rotate=18]
+    \draw[draw=black!70, fill=black!10, line width=0.9pt, rounded corners=1.5mm]
+      (-0.18,-0.45) rectangle (0.18,0.45);
+  \end{scope}
+  % setas de movimento
+  \draw[-{Stealth[length=4pt]}, black!55, line width=0.7pt]
+    (-0.55, 0.3) arc[start angle=140, end angle=40, radius=0.55cm];
+  \draw[-{Stealth[length=4pt]}, black!55, line width=0.7pt]
+    (0.55,-0.3) arc[start angle=-40, end angle=-140, radius=0.55cm];
+  \node[font=\sffamily\tiny\bfseries] at (0,-0.8) {AGITE O CELULAR};
+\end{scope}
+
+% barra de progresso do shake
+\draw[draw=black!40, fill=black!8, line width=0.5pt, rounded corners=0.5mm]
+  (3.9, 0.42) rectangle (6.7, 0.16);
+\draw[draw=none, fill=black!45, rounded corners=0.5mm]
+  (3.9, 0.42) rectangle (5.8, 0.16);
+\node[font=\sffamily\tiny, text=black!50] at (5.3,0.55) {intensidade do movimento};
+
+\node[chip] at (4.48,0.0) {\tiny Acelerôm.};
+\node[chip] at (6.12,0.0) {\tiny Giroscópio};
+
+\node[lbl, anchor=north] at (5.3,-0.35)
+  {\textbf{Palavra detectada!}  Confirme};
+
+% contador regressivo
+\draw[draw=black!50, fill=black!5, line width=0.7pt] (5.3,-0.92) circle (0.32cm);
+\node[font=\sffamily\small\bfseries] at (5.3,-0.92) {5};
+\node[font=\sffamily\tiny, text=black!50] at (5.3,-1.35) {segundos para confirmar};
+
+\node[btnalert, anchor=north] at (5.3,-1.65)
+  {\textcolor{white}{\textbf{CANCELAR}}};
+
+\node[font=\sffamily\tiny\itshape, text=black!60, anchor=north] at (5.3,-2.15)
+  {Tela 2 — Confirmação por Agitação};
+
+%% ─── TELA 3: Alerta Enviado ───
+\node[phone] (p3) at (10.6,0) {};
+\draw[fill=black!25, draw=black!50, line width=0.4pt] (10.6,3.2) circle (0.11cm);
+\node[topbar, anchor=north] at (10.6,3.05) {\textbf{SafeWord} \hfill $\blacksquare$};
+
+% ícone de alerta enviado (escudo com check)
+\begin{scope}[shift={(10.6,1.7)}]
+  \draw[draw=black!65, fill=black!10, line width=1.1pt]
+    (0,0.55) -- (-0.5,0.25) -- (-0.5,-0.3) -- (0,-0.55) -- (0.5,-0.3) -- (0.5,0.25) -- cycle;
+  \draw[black!65, line width=1.2pt] (-0.18,0.0) -- (-0.02,-0.22) -- (0.22,0.28);
+  \node[font=\sffamily\tiny\bfseries] at (0,-0.82) {ALERTA ENVIADO};
+\end{scope}
+
+\node[lbl, anchor=north] at (10.6,0.08)
+  {\textbf{Polícia:} \ notificada};
+\node[lbl, anchor=north] at (10.6,-0.38)
+  {\textbf{Contatos:} \ 3 avisados};
+\node[lbl, anchor=north] at (10.6,-0.88)
+  {\textbf{Localização:} \ -18.91°, -49.72°};
+\node[lbl, anchor=north] at (10.6,-1.36)
+  {\textbf{GPS:} \ enviado às autoridades};
+
+\node[btn, anchor=north] at (10.6,-1.86) {\textbf{Cancelar Alerta}};
+
+\node[font=\sffamily\tiny\itshape, text=black!60, anchor=north] at (10.6,-2.5)
+  {Tela 3 — Alerta Enviado};
+
+%% setas de transição
+\draw[-{Stealth[length=5pt]}, line width=0.9pt, black!45]
+  ([xshift=0.2cm]p1.east) -- ([xshift=-0.2cm]p2.west)
+  node[midway, above, font=\sffamily\tiny, text=black!45] {palavra-chave};
+\draw[-{Stealth[length=5pt]}, line width=0.9pt, black!45]
+  ([xshift=0.2cm]p2.east) -- ([xshift=-0.2cm]p3.west)
+  node[midway, above, font=\sffamily\tiny, text=black!45] {agitar};
+
+\end{tikzpicture}
+\end{center}
+% ────────────────────────────────────────────────────────────────────────────
+
+\vspace{0.4cm}
+
+\noindent\textit{Resposta:}
+
+\begin{resposta}{12cm}
+\end{resposta}
+
+% =========================
+\end{document}
+% =========================

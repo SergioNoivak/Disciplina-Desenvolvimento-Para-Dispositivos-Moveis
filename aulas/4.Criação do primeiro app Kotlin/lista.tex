@@ -1,0 +1,269 @@
+\documentclass[12pt]{article}
+
+% Idioma e codificação
+\usepackage[brazil]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+% Matemática e listas
+\usepackage{amsmath, amssymb}
+\usepackage{enumitem}
+
+% Layout e cores
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{xcolor}
+
+% Diagramas e Portas Lógicas
+\usepackage{tikz}
+\usetikzlibrary{shapes.gates.logic.US, positioning, arrows.meta, calc, fit, shadows.blur}
+
+% Cores institucionais
+\definecolor{maincolor}{RGB}{0, 79, 151}
+\definecolor{meuazul}{RGB}{0, 79, 151}
+
+% Cabeçalho e rodapé
+\usepackage{fancyhdr}
+
+% Blocos
+\usepackage[most]{tcolorbox}
+\newtcolorbox{block}[1]{%
+  colback=blue!5,
+  colframe=maincolor,
+  coltitle=white,
+  title=#1,
+  fonttitle=\bfseries,
+  boxrule=1.5pt,
+  arc=3mm,
+  left=6pt,
+  right=6pt,
+  top=6pt,
+  bottom=6pt
+}
+
+\newtcolorbox{resposta}[1]{%
+  colback=white,
+  colframe=meuazul!30,
+  arc=1mm,
+  height=#1,
+  width=\textwidth,
+  boxrule=0.8pt
+}
+
+% Margens
+\geometry{margin=2.5cm}
+
+% Fancyhdr
+\pagestyle{fancy}
+\fancyhf{}
+
+\renewcommand{\headrulewidth}{2pt}
+\renewcommand{\footrulewidth}{2pt}
+
+\renewcommand{\headrule}{\hbox to\headwidth{%
+  \color{meuazul}\leaders\hrule height \headrulewidth\hfill}}
+
+\renewcommand{\footrule}{\hbox to\headwidth{%
+  \color{meuazul}\leaders\hrule height \footrulewidth\hfill}}
+
+\setlength{\headheight}{52pt}
+\addtolength{\topmargin}{-20pt}
+
+\fancyhead[L]{%
+  \includegraphics[height=1.2cm]{logo.png}
+}
+
+\fancyhead[R]{%
+  \raggedleft
+  \textcolor{meuazul}{%
+    \small
+    \textbf{Lista de Exercícios — Desenvolvimento de Software para Dispositivos Móveis}\\
+    Me.~Sergio Souza Novak\\
+    \textit{Engenharia da Qualidade e Confiabilidade}
+  }
+}
+
+\fancyfoot[C]{\textcolor{meuazul}{\thepage}}
+
+% =========================
+\begin{document}
+% =========================
+
+\vspace*{0.2cm}
+
+\begin{center}
+  {\Large \textbf{Conceitos iniciais android}}\\[0.2cm]
+  \textit{Instruções: Justifique suas respostas de forma clara e objetiva.
+  Para questões discursivas, escreva na caixa de resposta abaixo de cada enunciado.}
+\end{center}
+
+\vspace{0.4cm}
+
+% ── Questão 1 ───────────────────────────────────────────────────────────────
+\noindent\textbf{Questão 1 — Templates de Projeto}
+
+\vspace{0.2cm}
+\noindent
+Ao iniciar um novo projeto no Android Studio, o desenvolvedor deve escolher um template inicial. Segundo o material da aula, qual é a principal diferença entre selecionar o template \textbf{Empty Activity} e o \textbf{Empty Views Activity}?
+
+\vspace{0.3cm}
+\noindent\textit{Resposta:}
+\begin{resposta}{3.5cm}
+\end{resposta}
+
+\vspace{0.6cm}
+\noindent\rule{\textwidth}{0.8pt}
+\vspace{0.3cm}
+
+% ── Questão 2 ───────────────────────────────────────────────────────────────
+\noindent\textbf{Questão 2 — Manifest e Ponto de Entrada}
+
+\vspace{0.2cm}
+\noindent
+O arquivo \texttt{AndroidManifest.xml} descreve informações essenciais do aplicativo para o sistema Android. Explique qual é a função específica da tag \texttt{<intent-filter>} contendo as propriedades \texttt{MAIN} e \texttt{LAUNCHER} declarada dentro de uma \texttt{<activity>}.
+
+\vspace{0.3cm}
+\noindent\textit{Resposta:}
+\begin{resposta}{3.5cm}
+\end{resposta}
+
+\vspace{0.6cm}
+\noindent\rule{\textwidth}{0.8pt}
+\vspace{0.3cm}
+
+% ── Questão 3 ───────────────────────────────────────────────────────────────
+\noindent\textbf{Questão 3 — Estrutura de Recursos}
+
+\vspace{0.2cm}
+\noindent
+Um projeto Android organiza seus códigos e recursos em diretórios separados. Dentro da pasta \texttt{res/}, encontramos diversas subpastas importantes. Cite e descreva a finalidade das pastas \texttt{drawable}, \texttt{layout} e \texttt{values}.
+
+\vspace{0.3cm}
+\noindent\textit{Resposta:}
+\begin{resposta}{4.5cm}
+\end{resposta}
+
+\vspace{0.6cm}
+\noindent\rule{\textwidth}{0.8pt}
+\vspace{0.3cm}
+
+% ── Questão 4 ───────────────────────────────────────────────────────────────
+\noindent\textbf{Questão 4 — Boas Práticas: Centralização de Textos e Cores}
+
+\vspace{0.2cm}
+\noindent
+Em vez de escrever textos ou definir códigos de cores diretamente nos layouts XML e no código Kotlin, o recomendado é usar os arquivos \texttt{strings.xml} e \texttt{colors.xml}. Quais são as principais vantagens dessa abordagem (por exemplo, em relação a traduções)?
+
+\vspace{0.3cm}
+\noindent\textit{Resposta:}
+\begin{resposta}{3.5cm}
+\end{resposta}
+
+\vspace{0.6cm}
+\noindent\rule{\textwidth}{0.8pt}
+\vspace{0.3cm}
+
+% ── Questão 5 ───────────────────────────────────────────────────────────────
+\noindent\textbf{Questão 5 — View e ViewGroup}
+
+\vspace{0.2cm}
+\noindent
+A interface gráfica de um aplicativo construído com Views obedece a uma estrutura hierárquica baseada nos conceitos de \textbf{View} e \textbf{ViewGroup}. Explique a diferença entre esses dois conceitos e dê pelo menos dois exemplos de cada um.
+
+\vspace{0.3cm}
+\noindent\textit{Resposta:}
+\begin{resposta}{4.5cm}
+\end{resposta}
+
+\vspace{0.6cm}
+\noindent\rule{\textwidth}{0.8pt}
+\vspace{0.3cm}
+
+% ── Questão 6 ───────────────────────────────────────────────────────────────
+\noindent\textbf{Questão 6 — Unidades de Medida (\texttt{dp} vs. \texttt{sp})}
+
+\vspace{0.2cm}
+\noindent
+Ao definir as dimensões e espaçamentos no Android, utilizamos a unidade \texttt{dp} (Density-independent pixels), enquanto para textos a recomendação é usar \texttt{sp} (Scale-independent pixels). Por que não devemos usar \texttt{dp} para definir o tamanho de fontes da interface?
+
+\vspace{0.3cm}
+\noindent\textit{Resposta:}
+\begin{resposta}{4cm}
+\end{resposta}
+
+\vspace{0.6cm}
+\noindent\rule{\textwidth}{0.8pt}
+\vspace{0.3cm}
+
+% ── Questão 7 ───────────────────────────────────────────────────────────────
+\noindent\textbf{Questão 7 — Configuração de Tamanho no Layout}
+
+\vspace{0.2cm}
+\noindent
+Um desenvolvedor deseja que um \texttt{Button} ocupe 100\% da largura disponível pelo seu elemento pai (container), mas que a sua altura se ajuste estritamente ao tamanho do texto inserido nele, sem sobrar espaços em branco desnecessários. Quais valores devem ser atribuídos aos atributos \texttt{layout\_width} e \texttt{layout\_height}, respectivamente?
+
+\vspace{0.3cm}
+\noindent\textit{Resposta:}
+\begin{resposta}{3.5cm}
+\end{resposta}
+
+\vspace{0.6cm}
+\noindent\rule{\textwidth}{0.8pt}
+\vspace{0.3cm}
+
+% ── Questão 8 ───────────────────────────────────────────────────────────────
+\noindent\textbf{Questão 8 — Complexidade da Hierarquia de Views}
+
+\vspace{0.2cm}
+\noindent
+Durante o desenvolvimento das telas de um aplicativo, é fundamental atentar-se à profundidade da hierarquia de componentes. Por que é considerado uma má prática de design de layout criar estruturas excessivamente profundas (com dezenas de ViewGroups aninhados)?
+
+\vspace{0.3cm}
+\noindent\textit{Resposta:}
+\begin{resposta}{4cm}
+\end{resposta}
+
+\vspace{0.6cm}
+\noindent\rule{\textwidth}{0.8pt}
+\vspace{0.3cm}
+
+% ── Questão 9 ───────────────────────────────────────────────────────────────
+\noindent\textbf{Questão 9 — Build Gradle}
+
+\vspace{0.2cm}
+\noindent
+O arquivo \texttt{build.gradle.kts} (nível de módulo da aplicação) desempenha um papel central na organização e compilação do projeto Android. Descreva, pelo menos, três tipos de configurações ou declarações que podem ser encontradas nesse arquivo e a sua finalidade (por exemplo: \texttt{defaultConfig}, \texttt{dependencies}, etc.).
+
+\vspace{0.3cm}
+\noindent\textit{Resposta:}
+\begin{resposta}{4.5cm}
+\end{resposta}
+
+\vspace{0.6cm}
+\noindent\rule{\textwidth}{0.8pt}
+\vspace{0.3cm}
+
+% ── Questão 10 ───────────────────────────────────────────────────────────────
+\noindent\textbf{Questão 10 — Emulador Android}
+
+\vspace{0.2cm}
+\noindent
+Para executar e testar o aplicativo sem um dispositivo físico, podemos usar o Emulador Android. Defina o que é esse emulador e explique o que é a ``System Image'' (Imagem do Sistema) e por que ela precisa ser baixada antes de iniciar um dispositivo virtual no Device Manager.
+
+\vspace{0.3cm}
+\noindent\textit{Resposta:}
+\begin{resposta}{4cm}
+\end{resposta}
+
+\vspace{0.6cm}
+\noindent\rule{\textwidth}{0.8pt}
+\vspace{0.5cm}
+
+\begin{center}
+  \textit{``Boa atividade! Att. Me. Prof. Sergio Souza Novak.''}
+\end{center}
+
+
+% =========================
+\end{document}
+% =========================

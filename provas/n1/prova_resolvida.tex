@@ -1,0 +1,618 @@
+\documentclass[12pt,a4paper]{article}
+
+% ------------------------------------------------
+% Pacotes
+% ------------------------------------------------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[brazil]{babel}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{geometry}
+\usepackage{fancyhdr}
+\usepackage{mathptmx} % Times New Roman
+\usepackage{courier} % Adiciona suporte a negrito na fonte monospace
+\usepackage{enumitem}\usepackage{amsfonts}
+\usepackage{amsmath} % Recomendado para o comando \text{}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usetikzlibrary{positioning, shapes.geometric, arrows.meta}
+\usepackage{listings}
+\usepackage{multicol}
+
+\lstset{
+    language=Java,
+    keywordstyle=\bfseries,
+    showstringspaces=false,
+    breaklines=true,
+    frame=none,
+    numbers=none,
+    tabsize=2,
+    commentstyle=\itshape\color{gray},
+    morekeywords={this, class, private, public, String, System, out, println, Solo, Caminhao, Patio, Termometro},
+    extendedchars=true,
+    inputencoding=utf8
+}
+
+% TikZ Styles for ER Diagrams
+\tikzset{
+    block/.style={rectangle, draw, thick, minimum width=2cm, minimum height=1cm, fill=white},
+    diamond_node/.style={diamond, draw, thick, minimum width=2cm, minimum height=1cm, fill=white, aspect=2},
+    attribute/.style={ellipse, draw, thin, minimum width=1.5cm, minimum height=0.6cm, fill=white, font=\scriptsize},
+    line/.style={draw, thick}, 
+}
+% ------------------------------------------------ 
+% Configuração de página
+% ------------------------------------------------
+\geometry{
+    a4paper,
+    left=2cm,
+    right=2cm,
+    top=2cm,
+    bottom=2cm,
+    headheight=15pt % Adicione isso
+}% Caixa para resposta discursiva
+\newcommand{\resposta}[1]{
+\noindent
+\framebox[\textwidth]{
+\begin{minipage}{0.98\textwidth}
+\vspace*{#1}\null
+\end{minipage}
+}
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+
+\setlength{\parindent}{0pt}
+
+% ------------------------------------------------
+% Comandos auxiliares
+% ------------------------------------------------
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+
+% ------------------------------------------------
+% Documento
+% ------------------------------------------------
+\begin{document}
+
+% ------------------------------------------------
+% Cabeçalho - Corrigido para evitar aninhamento problemático
+% ------------------------------------------------
+\begin{tabularx}{\textwidth}{@{} L{4cm} X @{}}
+    \raisebox{-0.5cm}{\includegraphics[width=4cm]{Universidade_de_Rio_Verde.jpg}} &
+    \hfill
+    \begin{tabular}{|>{\centering\arraybackslash}m{9.5cm}|>{\raggedright\arraybackslash}p{1.8cm}|}
+        \hline
+        \cellcolor{black}\color{white}\rule{0pt}{1.2cm}\textbf{AVALIAÇÃO 1} 
+        & 
+        \scriptsize Nota \tabularnewline
+        \hline
+    \end{tabular} 
+\end{tabularx}
+\vspace{0.3cm}
+
+% ------------------------------------------------  
+% Tabela principal - Estrutura limpa
+% ------------------------------------------------
+\begin{tabularx}{\textwidth}{|X|L{2cm}|}
+\hline
+\textbf{Curso} & \textbf{Campus} \\
+\textit{Engenharia de Software} & \textit{Rio Verde} \\
+\hline
+\multicolumn{2}{|l|}{ \textit{Desenvolvimento de Software para Dispositivos Móveis}} \\
+\hline
+\textbf{Nome do(a) acadêmico(a)} & \textbf{Valor} \\
+& 7,0 \\
+\hline
+\textbf{Professor} & \textbf{Turma} \\
+\textit{ Sergio Souza Novak} & \textit{} \\
+\hline
+\textbf{Data da Avaliação} & \textbf{Código} \\
+\textit{02/10/2026} & \textit{ESW417} \\
+\hline
+\end{tabularx}
+ 
+% ------------------------------------------------
+% Barra de Atenção
+% ------------------------------------------------
+\vspace{0.2cm}
+
+\begin{tabularx}{\textwidth}{|X|}
+\hline
+\cellcolor{black}\color{white}
+\centering \textbf{ATENÇÃO:} Somente serão passíveis de \textbf{REVISÃO} avaliações resolvidas à \textbf{TINTA}. \tabularnewline
+\hline
+\end{tabularx}
+
+\vspace{0.3cm}
+
+\textbf{ORIENTAÇÕES PARA A RESOLUÇÃO}  
+
+\begin{itemize}
+    \item A avaliação é individual, sem consulta;
+    \item A interpretação de texto faz parte da avaliação;
+\end{itemize}
+
+\vspace{0.5cm}
+
+\begin{center}
+    \rule{\textwidth}{0.4pt}
+    \textbf{QUESTÕES}
+\end{center}
+
+\vspace{0.5cm} 
+
+\textbf{Código fonte de apoio para as questões 1 até 4}
+
+\setlength{\columnseprule}{0.4pt}
+\begin{multicols}{2}
+\begin{lstlisting}[basicstyle=\scriptsize\ttfamily, breaklines=true]
+package com.sergiosouzanovak.corpodocenteunirv
+
+
+class MainActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
+        setContent {
+            CorpoDocenteUnirvTheme {
+                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                    App(
+                        modifier = Modifier.padding(innerPadding)
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun carregarImagemAsset(nomeArquivo: String): ImageBitmap? {
+    val context = LocalContext.current
+
+    return try {
+        context.assets.open(nomeArquivo).use { inputStream ->
+            BitmapFactory.decodeStream(inputStream)?.asImageBitmap()
+        }
+    } catch (e: Exception) {
+        null
+    }
+}
+
+@Composable
+fun PesquisadorCard(
+    nome: String,
+    titulacao: String,
+    lattes: String,
+    email: String,
+    foto: String,
+    modifier: Modifier = Modifier
+) {
+    val imagem = carregarImagemAsset(foto)
+
+    Card(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(16.dp),
+        shape = RoundedCornerShape(4.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = Color(0xFFF1F4F5)
+        ),
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = 0.dp
+        )
+    ) {
+        Column(
+            modifier = Modifier.width(1200.dp).height(300.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+
+            imagem?.let {
+                Image(
+                    bitmap = it,
+                    contentDescription = "Foto de $nome",
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(120.dp),
+                    contentScale = ContentScale.Crop,
+                )
+            }
+
+            Text(
+                text = nome,
+                modifier = Modifier.padding(
+                    top = 14.dp,
+                    start = 8.dp,
+                    end = 8.dp
+                ),
+                fontSize = 12.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color(0xFF222222),
+                textAlign = TextAlign.Center
+            )
+
+            Text(
+                text = titulacao,
+                modifier = Modifier.padding(top = 6.dp),
+                fontSize = 12.sp,
+                color = Color(0xFF666666),
+                textAlign = TextAlign.Center
+            )
+
+            Text(
+                text = lattes,
+                modifier = Modifier
+                    .padding(
+                        top = 28.dp,
+                        start = 16.dp,
+                        end = 16.dp
+                    )
+                    .clickable {
+                        // abrir Lattes
+                    },
+                fontSize = 12.sp,
+                color = Color(0xFF007AFF),
+                textAlign = TextAlign.Center
+            )
+
+            Text(
+                text = email,
+                modifier = Modifier.padding(
+                    top = 14.dp,
+                    bottom = 22.dp
+                ),
+                fontSize = 12.sp,
+                color = Color(0xFF444444),
+                textAlign = TextAlign.Center
+            )
+        }
+    }
+}
+
+data class Docente(
+    val nome: String,
+    val titulacao: String,
+    val lattes: String,
+    val email: String,
+    val foto: String
+)
+
+@Composable
+fun ListaPesquisadores(){
+    val docentes = listOf(
+        Docente(
+            nome = "ALEX MIZAEL MARTINS",
+            titulacao = "Doutor",
+            lattes = "www.google.com",
+            email = "sergio.novak@unirv.edu.br",
+            foto = "docentes/ALEX MIZAEL MARTINS.png"
+        ),
+        Docente(
+            nome = "BACUS DE OLIVEIRA NAHIME",
+            titulacao = "Doutor",
+            lattes = "www.google.com",
+            email = "joao@unirv.edu.br",
+            foto = "docentes/BACUS DE OLIVEIRA NAHIME.png"
+        ),
+        Docente(
+            nome = "Barbara Gomes Martins",
+            titulacao = "Mestre",
+            lattes = "www.google.com",
+            email = "maria@unirv.edu.br",
+            foto = "docentes/Barbara Gomes Martins.png"
+        ),
+        Docente(
+            nome = "BIANCA SIMONELI DE OLIVEIRA",
+            titulacao = "Doutor",
+            lattes = "www.google.com",
+            email = "pedro@unirv.edu.br",
+            foto = "docentes/BIANCA SIMONELI DE OLIVEIRA.png"
+        )
+    )
+
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(2),
+        modifier = Modifier.fillMaxSize(),
+        contentPadding = PaddingValues(16.dp),
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        items(docentes) { docente ->
+            PesquisadorCard(
+                nome = docente.nome,
+                titulacao = docente.titulacao,
+                lattes = docente.lattes,
+                email = docente.email,
+                foto = docente.foto
+            )
+        }
+    }
+}
+
+@Composable
+fun PageTitle(){
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Row{
+            Text(text = "Corpo Docente do curso de")
+            Text(
+                text = " Engenharia Civil",
+                color = Color(0xFF064F9F)
+            )
+        }
+        Row{
+            Column {
+                repeat(2){
+                    HorizontalDivider(
+                        modifier = Modifier.width(125.dp),
+                        thickness = 2.dp,
+                        color = Color.Gray
+                    )
+                    Spacer(modifier = Modifier.height(4.dp))
+                }
+            }
+        }
+        Row{
+            ListaPesquisadores()
+        }
+    }
+}
+
+@Composable
+fun App(modifier:Modifier) {
+    Column{
+        PageTitle()
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun GreetingPreview() {
+    CorpoDocenteUnirvTheme {
+        App(modifier = Modifier)
+    }
+}
+\end{lstlisting}
+\end{multicols}
+
+\vspace{0.5cm}
+
+\textbf{Questão 1 - } No Jetpack Compose, a anotação \texttt{@Composable} é fundamental para a construção de interfaces de usuário. Qual é a principal função dessa anotação (utilizada, por exemplo, nas funções \texttt{PesquisadorCard} e \texttt{ListaPesquisadores}) no código fornecido?
+
+\begin{enumerate}[label=\alph*)]
+    \item Indicar ao compilador que a função retorna uma visualização tradicional baseada em arquivos XML do Android.
+    \item \textbf{[X]} Transformar a função em um componente de interface gráfica que o framework do Compose pode processar para desenhar a tela.
+    \item Configurar a comunicação direta entre o aplicativo e o banco de dados interno do dispositivo móvel.
+    \item Declarar que a função correspondente deve ser executada de forma assíncrona, visando otimizar a rede.
+    \item Gerenciar o ciclo de vida da Activity principal (MainActivity) substituindo automaticamente o método \texttt{onCreate}.
+\end{enumerate}
+
+\vspace{0.5cm}
+
+\textbf{Questão 2 - } Sobre os componentes de layout \texttt{Row} e \texttt{Column}, amplamente utilizados no Jetpack Compose (como visto na função \texttt{PageTitle}), julgue as afirmativas abaixo como Verdadeiras (V) ou Falsas (F):
+
+\begin{itemize}[label={(\ \ \ )}]
+    \item[( V )] O componente \texttt{Column} organiza seus elementos filhos sequencialmente na vertical (um abaixo do outro).
+    \item[( V )] O componente \texttt{Row} organiza seus elementos filhos sequencialmente na horizontal (um ao lado do outro).
+    \item[( V )] Em uma \texttt{Column}, para alinhar os elementos filhos no eixo horizontal (como esquerda, centro ou direita), utiliza-se o parâmetro \texttt{horizontalAlignment}.
+\end{itemize}
+
+\vspace{0.5cm}
+
+\textbf{Questão 3 - } No desenvolvimento Android, observa-se o uso constante de unidades como \texttt{dp} (Density-independent Pixels) para as dimensões dos componentes (ex: \texttt{16.dp}) e \texttt{sp} (Scale-independent Pixels) para o tamanho das fontes (ex: \texttt{12.sp}). Explique qual é o problema de se utilizar a medida absoluta de pixels (\texttt{px}) na construção de telas e quais são as vantagens de se adotar o \texttt{dp} e o \texttt{sp}.
+
+\vspace{0.3cm}
+\textbf{Resposta:} Utilizar pixels absolutos (\texttt{px}) causa problemas de responsividade, pois as telas possuem diferentes densidades de pixels (DPI). Um elemento em px terá tamanhos físicos diferentes dependendo do aparelho. O uso de \texttt{dp} (Density-independent Pixels) escala a interface de acordo com a densidade da tela, mantendo o tamanho físico consistente. O \texttt{sp} (Scale-independent Pixels) oferece as mesmas vantagens, mas, além disso, escala com as configurações de tamanho de fonte definidas pelo usuário no sistema.
+
+\vspace{0.5cm}
+
+\textbf{Questão 4 - } No código de apoio, observamos duas estruturas responsáveis por exibir componentes de interface: a função \texttt{GreetingPreview()} (anotada com \texttt{@Preview}) e a classe \texttt{MainActivity} (que herda de \texttt{ComponentActivity}). Explique a principal diferença entre os dois trechos de código. Em sua resposta, indique claramente qual deles é utilizado apenas durante a fase de desenvolvimento (para pré-visualização na IDE) e qual deles é efetivamente invocado pela aplicação real quando executada no dispositivo móvel.
+
+\vspace{0.3cm}
+\textbf{Resposta:} A função \texttt{GreetingPreview()} (marcada com \texttt{@Preview}) é utilizada \textbf{apenas durante a fase de desenvolvimento}. Ela serve para renderizar um preview da interface diretamente na IDE do Android Studio, sem precisar rodar a aplicação. Já a classe \texttt{MainActivity}, que herda de \texttt{ComponentActivity}, é \textbf{efetivamente invocada pela aplicação real}. Ela é o ponto de entrada principal do app no dispositivo móvel, responsável por chamar e exibir a interface real quando o aplicativo é executado.
+
+\vspace{0.5cm}
+
+\textbf{Questão 5 - } Uma equipe de desenvolvimento deseja criar um aplicativo para smartphones capaz de auxiliar na detecção de metais utilizando os sensores já disponíveis no dispositivo móvel. Durante o projeto, foram identificados os seguintes sensores:
+
+\begin{itemize}[leftmargin=1.5em]
+  \item Um sensor que mede a intensidade do campo magnético ao redor do celular.
+  \item Um sensor que detecta movimentos e acelerações do aparelho.
+  \item Um sensor que identifica a orientação e a rotação do dispositivo.
+\end{itemize}
+
+\vspace{0.4cm}
+
+% ── Wireframes das telas do aplicativo ──────────────────────────────────────
+\begin{center}
+\begin{tikzpicture}[
+  font=\sffamily\scriptsize,
+  every node/.style={inner sep=0pt},
+  phone/.style={draw=black!70, rounded corners=4mm, fill=white,
+                line width=1.2pt, minimum width=3.8cm, minimum height=7cm},
+  topbar/.style={draw=black!60, fill=black!10, line width=0.8pt,
+                 minimum width=3.4cm, minimum height=0.55cm, rounded corners=1mm},
+  widget/.style={draw=black!50, fill=white, line width=0.6pt,
+                 minimum width=3.2cm, rounded corners=1mm},
+  btn/.style={draw=black!70, fill=black!15, line width=0.8pt,
+              minimum width=2.6cm, minimum height=0.55cm, rounded corners=2mm},
+  sensorlbl/.style={draw=black!40, fill=black!5, line width=0.5pt,
+                    minimum width=3.2cm, minimum height=0.45cm, rounded corners=1mm},
+]
+
+%% ─────── TELA 1: Escaneamento ───────
+\node[phone] (phone1) at (0,0) {};
+
+% câmera (notch)
+\draw[fill=black!25, draw=black!50, line width=0.5pt]
+  (0, 3.3) circle (0.12cm);
+
+% barra de status
+\node[topbar, anchor=north] (bar1) at (0, 3.1)
+  {\textbf{MetalScan} \hfill 09:41};
+
+% ícone de campo magnético (ondas)
+\begin{scope}[shift={(0, 1.8)}]
+  \draw[line width=1.2pt] (0,0) circle (0.38cm);
+  \draw[line width=0.7pt] (0,0) circle (0.62cm);
+  \draw[line width=0.4pt, dashed] (0,0) circle (0.86cm);
+  \node[font=\sffamily\tiny\bfseries] at (0,-1.1) {Campo Magnético};
+\end{scope}
+
+% barra de intensidade
+\node[widget, minimum height=0.38cm, anchor=north] (bar_bg) at (0, 0.55)
+  {};
+\node[draw=none, fill=black!30, minimum width=1.1cm, minimum height=0.28cm,
+      anchor=west, rounded corners=0.5mm] at ([xshift=0.05cm]bar_bg.west) {};
+\node[font=\sffamily\tiny, anchor=east] at ([xshift=-0.08cm]bar_bg.east)
+  {intensidade};
+
+% leituras dos sensores
+\node[sensorlbl, anchor=north] (s1) at (0, 0.1)
+  {\textbf{Magnetômetro:} \ 48 µT};
+\node[sensorlbl, anchor=north] (s2b) at (0, -0.45)
+  {\textbf{Acelerômetro:} \ 0.3 m/s²};
+\node[sensorlbl, anchor=north] (s3) at (0, -0.98)
+  {\textbf{Giroscópio:} \ 2.1 °/s};
+
+% botão iniciar
+\node[btn, anchor=north] at (0, -1.6)
+  {\textbf{\ Iniciar Varredura}};
+
+% legenda
+\node[font=\sffamily\tiny\itshape, text=black!60, anchor=north] at (0,-3.0)
+  {Tela 1 — Escaneamento};
+
+%% ─────── TELA 2: Metal Detectado ───────
+\node[phone] (phone2) at (5.5,0) {};
+
+% câmera
+\draw[fill=black!25, draw=black!50, line width=0.5pt]
+  (5.5, 3.3) circle (0.12cm);
+
+% barra de status
+\node[topbar, anchor=north] (bar2) at (5.5, 3.1)
+  {\textbf{MetalScan} \hfill 09:42};
+
+% ícone de alerta
+\begin{scope}[shift={(5.5, 1.75)}]
+  \draw[line width=1.5pt, fill=black!8]
+    (0, 0.55) -- (-0.55,-0.45) -- (0.55,-0.45) -- cycle;
+  \node[font=\bfseries\small] at (0, 0.04) {!};
+  \node[font=\sffamily\tiny\bfseries] at (0,-0.85)
+    {METAL DETECTADO};
+\end{scope}
+
+% barra de intensidade alta
+\node[widget, minimum height=0.38cm, anchor=north] (bar_bg2) at (5.5, 0.55) {};
+\node[draw=none, fill=black!60, minimum width=2.8cm, minimum height=0.28cm,
+      anchor=west, rounded corners=0.5mm]
+  at ([xshift=0.05cm]bar_bg2.west) {};
+\node[font=\sffamily\tiny, anchor=east, text=white]
+  at ([xshift=-0.12cm]bar_bg2.east) {alta};
+
+% leituras — estado de alerta
+\node[sensorlbl, anchor=north] at (5.5, 0.1)
+  {\textbf{Magnetômetro:} \ 312 µT};
+\node[sensorlbl, anchor=north] at (5.5, -0.45)
+  {\textbf{Acelerômetro:} \ 1.9 m/s²};
+\node[sensorlbl, anchor=north] at (5.5, -0.98)
+  {\textbf{Giroscópio:} \ 8.4 °/s};
+
+% botão nova varredura
+\node[btn, anchor=north] at (5.5, -1.6)
+  {\textbf{\ Nova Varredura}};
+
+% legenda
+\node[font=\sffamily\tiny\itshape, text=black!60, anchor=north] at (5.5,-3.0)
+  {Tela 2 — Metal Detectado};
+ 
+%% seta de transição
+\draw[-{Stealth[length=6pt]}, line width=1pt, black!50]
+  ([xshift=0.25cm]phone1.east) -- ([xshift=-0.25cm]phone2.west)
+  node[midway, above, font=\sffamily\tiny, text=black!50] {detecção};
+
+\end{tikzpicture}
+\end{center}
+% ────────────────────────────────────────────────────────────────────────────
+
+\vspace{0.3cm}
+Considerando o funcionamento desse aplicativo para detecção de metais, assinale a alternativa que indica corretamente qual é o principal sensor responsável por medir as variações e identificar a presença do metal ao redor do aparelho:
+
+\vspace{0.4cm}
+
+\begin{enumerate}[label=\alph*)]
+    \item Acelerômetro
+    \item \textbf{[X]} Magnetômetro
+    \item Giroscópio
+    \item Sensor de Proximidade
+    \item Barômetro
+\end{enumerate}
+
+\vspace{0.5cm}
+
+\textbf{Questão 6 - } Analise o seguinte trecho de código escrito em Kotlin:
+
+\begin{lstlisting}[basicstyle=\small\ttfamily, breaklines=true]
+val soma = { a: Int, b: Int -> a + b }
+
+fun main() {
+    println(soma(5, 3)) // Saida: 8
+}
+\end{lstlisting}
+
+O trecho de código acima demonstra uma importante característica da linguagem Kotlin. Assinale a alternativa que descreve corretamente o conceito utilizado na declaração da variável \texttt{soma}:
+
+\begin{enumerate}[label=\alph*)]
+    \item Tratamento de exceções utilizando blocos anônimos para capturar erros matemáticos.
+    \item Declaração de uma função de extensão estática na classe \texttt{Int}.
+    \item Instanciação de uma classe abstrata responsável pelas operações aritméticas básicas.
+    \item \textbf{[X]} Definição de uma função lambda (função anônima), que é tratada como um tipo de primeira classe e pode ser armazenada em variáveis.
+    \item Sobrecarga do operador de adição nativo da linguagem para modificar seu funcionamento.
+\end{enumerate}
+
+\vspace{0.5cm}
+
+\textbf{Questão 7 - } Observe o trecho de código Kotlin abaixo, que apresenta diferentes formas de inicializar coleções de dados:
+
+\begin{lstlisting}[basicstyle=\small\ttfamily, breaklines=true]
+val lista = mutableListOf("Item 1")
+val lista2 = arrayListOf("Item 1") // nativo
+
+// Set (HashSet)
+val conjunto = mutableSetOf(10)
+val conjunto2 = hashSetOf(10)
+
+// Map (HashMap)
+val mapa = mutableMapOf("Chave" to 100)
+val mapa2 = hashMapOf("Chave" to 100)
+\end{lstlisting}
+
+A linguagem Kotlin provê diversas funções utilitárias para a criação de coleções. Com base nas estruturas apresentadas (\texttt{List}, \texttt{Set} e \texttt{Map}) e nos conceitos de coleções em Kotlin, assinale a afirmativa correta:
+
+\begin{enumerate}[label=\alph*)]
+    \item As funções que possuem o prefixo \texttt{mutable} criam coleções de leitura restrita (imutáveis), cujos elementos não podem ser alterados após a instanciação.
+    \item A estrutura \texttt{Set} (como a criada por \texttt{mutableSetOf} ou \texttt{hashSetOf}) é projetada para permitir o armazenamento de vários elementos idênticos e duplicados.
+    \item \textbf{[X]} A estrutura \texttt{Map} armazena elementos utilizando o paradigma de associação chave-valor, onde cada chave mapeada deve ser necessariamente única na coleção.
+    \item O uso da palavra-chave \texttt{val} na declaração das variáveis impede que novos elementos sejam adicionados ou removidos das listas e conjuntos mutáveis.
+    \item Em Kotlin, não existe diferença conceitual entre \texttt{List} e \texttt{Set}, pois ambas utilizam índices inteiros, não possuem ordem e não permitem repetidos.
+\end{enumerate}
+
+\vspace{0.5cm}
+
+\textbf{Questão 8 - } A linguagem Kotlin oferece diversas funções de alta ordem (higher-order functions) que facilitam a manipulação e transformação de coleções de forma funcional, sendo \texttt{filter} e \texttt{map} algumas das mais utilizadas. Sobre o tema, julgue as afirmativas abaixo como Verdadeiras (V) ou Falsas (F):
+
+\begin{itemize}[label={(\ \ \ )}]
+    \item[( V )] A função \texttt{filter} é utilizada para percorrer uma coleção e retornar uma nova coleção contendo apenas os elementos que satisfazem uma dada condição (predicado).
+    \item[( V )] A função \texttt{map} tem o objetivo de transformar os itens de uma coleção, aplicando uma função fornecida a cada elemento original e retornando uma nova coleção com os resultados gerados.
+    \item[( F )] O uso das funções \texttt{filter} e \texttt{map} altera e substitui diretamente os valores dentro da coleção original na memória, não sendo necessário armazenar o retorno.
+    \item[( V )] Ao utilizar expressões lambdas no Kotlin (como dentro do bloco do \texttt{filter} ou \texttt{map}), o identificador implícito \texttt{it} pode ser utilizado para referenciar o elemento atual da iteração, encurtando o código.
+\end{itemize}
+
+\end{document}
